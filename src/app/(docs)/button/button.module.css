@@ -1,0 +1,96 @@
+.wrapper {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 28px;
+}
+
+.grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.demoBox {
+  background: #fff;
+  padding: 28px;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.09);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #334155, transparent);
+  margin: 12px 0 16px;
+}
+
+.select {
+  background: #0f172a;
+  color: #e2e8f0;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.select:hover {
+  border-color: #60a5fa;
+}
+
+.copyBtn {
+  background: #2563eb;
+  color: #fff;
+  font-weight: 500;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+.copyBtn:hover {
+  background: #1e40af;
+}
+
+.codeCard {
+  margin-top: 28px;
+  position: relative;
+  background: #0f172a;
+  color: #e2e8f0;
+  border-radius: 14px;
+  padding: 20px 18px;
+  overflow: auto;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: transparent;
+  color: #cbd5e1;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  padding: 0;
+  margin: 0;
+}
