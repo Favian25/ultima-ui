@@ -1,292 +1,212 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import FooterVariant from "../../../../components/FooterVariant";
-import styles from "./footer.module.css";
+import { useState } from "react";
+import { useTheme } from "styled-components";
+import { FaDesktop, FaTabletScreenButton, FaMobileScreenButton, FaCopy, FaCheck, FaChevronDown, FaChevronUp } from "react-icons/fa6";
+import { useThemeContext } from "../../Provider";
+import { Footer } from "../../../../components/FooterVariant";
 
 const SNIPPETS = {
   primary: `import { Footer } from "ultima-ui";
-import { FaFacebookF, FaGithub, FaLinkedinIn, FaTwitter } from "react-icons/fa";
+
+// Primary variant: dark footer with columns, newsletter, and social icons
+const primaryColumns = [
+  {
+    title: "Product",
+    items: [
+      { label: "Features", href: "/features" },
+      { label: "Pricing", href: "/pricing" },
+      { label: "Integrations", href: "/integrations" }
+    ]
+  },
+  {
+    title: "Company",
+    items: [
+      { label: "About", href: "/about" },
+      { label: "Blog", href: "/blog" },
+      { label: "Careers", href: "/careers" }
+    ]
+  },
+  {
+    title: "Resources",
+    items: [
+      { label: "Documentation", href: "/docs" },
+      { label: "API Reference", href: "/api" },
+      { label: "Community", href: "/community" }
+    ]
+  }
+];
 
 export default function Example() {
   return (
-    <Footer variant="primary" maxWidth="1200px">
-      <footer className="Wrapper">
-        <div className="Inner">
-          <div className="Grid">
-            <div>
-              <h4 className="Title">Info</h4>
-              <ul className="List">
-                <li><a href="#">Formats</a></li>
-                <li><a href="#">Compression</a></li>
-                <li><a href="#">Pricing</a></li>
-                <li><a href="#">FAQ</a></li>
-                <li><a href="#">Status</a></li>
-                <li><a href="#">Policy</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="Title">Getting Started</h4>
-              <ul className="List">
-                <li><a href="#">Introduction</a></li>
-                <li><a href="#">Themes</a></li>
-                <li><a href="#">Documentation</a></li>
-                <li><a href="#">Usages</a></li>
-                <li><a href="#">Elements</a></li>
-                <li><a href="#">Global</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="Title">Resources</h4>
-              <ul className="List">
-                <li><a href="#">API</a></li>
-                <li><a href="#">Form Validation</a></li>
-                <li><a href="#">Accessibility</a></li>
-                <li><a href="#">Marketplace</a></li>
-                <li><a href="#">Visibility</a></li>
-                <li><a href="#">Community</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="Title">Newsletter</h4>
-              <div className="NewsWrap">
-                <small>
-                  Subscribe to our newsletter for a weekly dose of news, updates, helpful tips, and exclusive offers.
-                </small>
-                <div className="InputRow">
-                  <input className="Input" placeholder="Your email" aria-label="Email address" />
-                  <button className="Button" type="button">SUBSCRIBE</button>
-                </div>
-
-                <div className="Social" aria-label="Social links">
-                  <a href="#"><FaFacebookF /></a>
-                  <a href="#"><FaGithub /></a>
-                  <a href="#"><FaLinkedinIn /></a>
-                  <a href="#"><FaTwitter /></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <hr className="Divider" />
-          <div className="BottomRow">
-            <div className="Brand">Ultima UI</div>
-            <small className="Copyright">© 2025 Ultima UI. All rights reserved.</small>
-          </div>
-        </div>
-      </footer>
-    </Footer>
+    <Footer 
+      variant="primary" 
+      columns={primaryColumns}
+      maxWidth="1200px"
+    />
   );
-}
-`,
+}`,
 
   secondary: `import { Footer } from "ultima-ui";
-import { FaFacebookF, FaGithub, FaLinkedinIn, FaTwitter } from "react-icons/fa";
+
+// Secondary variant: light footer with brand section, newsletter, and columns
+const secondaryColumns = [
+  {
+    title: "Legal",
+    items: [
+      { label: "Privacy Policy", href: "/privacy" },
+      { label: "Terms of Service", href: "/terms" }
+    ]
+  },
+  {
+    title: "Connect",
+    items: [
+      { label: "Twitter", href: "https://twitter.com" },
+      { label: "LinkedIn", href: "https://linkedin.com" }
+    ]
+  }
+];
 
 export default function Example() {
   return (
-    <Footer variant="secondary" maxWidth="1200px">
-      <footer className="Wrapper">
-        <div className="Inner">
-          <div className="TopCols">
-            <div className="Col BrandCol">
-              <div className="Brand">Ultima UI</div>
-              <p className="BrandDesc">
-                Komponen siap pakai untuk Next.js + styled-components, berpadu BEM + Sass.
-              </p>
-
-              <div className="Social">
-                <a href="#"><FaFacebookF /></a>
-                <a href="#"><FaGithub /></a>
-                <a href="#"><FaLinkedinIn /></a>
-                <a href="#"><FaTwitter /></a>
-              </div>
-            </div>
-
-            <div className="Col">
-              <h4 className="Title">Newsletter</h4>
-              <div className="NewsWrap">
-                <div className="InputRow">
-                  <input className="Input" placeholder="Email kamu" />
-                  <button className="Button" type="button">Daftar</button>
-                </div>
-                <small className="Note">
-                  Dengan mendaftar, kamu menyetujui kebijakan privasi kami.
-                </small>
-              </div>
-            </div>
-
-            <div className="Col">
-              <h4 className="Title">Links</h4>
-              <ul className="List">
-                <li><a href="#">Docs</a></li>
-                <li><a href="#">Changelog</a></li>
-                <li><a href="#">Components</a></li>
-                <li><a href="#">Figma Kit</a></li>
-              </ul>
-            </div>
-          </div>
-
-          <hr className="Divider" />
-          <div className="BottomRow">
-            <small className="Copyright">© 2025 Ultima UI</small>
-            <div className="LegalLinks">
-              <a href="#">Terms</a><a href="#">Privacy</a><a href="#">Status</a>
-            </div>
-          </div>
-        </div>
-      </footer>
-    </Footer>
+    <Footer 
+      variant="secondary" 
+      columns={secondaryColumns}
+    />
   );
-}
-`,
+}`,
 
   outline: `import { Footer } from "ultima-ui";
 
+// Outline variant: minimal single-line footer with inline nav
 export default function Example() {
   return (
-    <Footer variant="outline" maxWidth="1200px">
-      <footer className="Wrapper">
-        <div className="Inner">
-          <div className="TopBar">
-            <div className="Brand">Ultima UI</div>
-            <nav className="InlineNav">
-              <a href="#">Docs</a>
-              <a href="#">Components</a>
-              <a href="#">Pricing</a>
-              <a href="#">Contact</a>
-            </nav>
-            <form className="SubForm" onSubmit={(e)=>e.preventDefault()}>
-              <input className="SubInput" aria-label="Email" placeholder="Email" />
-              <button className="SubButton" type="submit">Subscribe</button>
-            </form>
-          </div>
-
-          <div className="BottomRow">
-            <small>© 2025 Ultima UI</small>
-            <div className="LegalLinks">
-              <a href="#">Terms</a><a href="#">Privacy</a>
-            </div>
-          </div>
-        </div>
-      </footer>
-    </Footer>
+    <Footer 
+      variant="outline" 
+      maxWidth="1000px"
+    />
   );
-}
-`,
+}`,
 
-animated: `import { Footer } from "ultima-ui";
-import { FaFacebookF, FaGithub, FaLinkedinIn, FaTwitter } from "react-icons/fa";
+  animated: `import { Footer } from "ultima-ui";
+
+// Animated variant: dark footer with particle effects
+const animatedColumns = [
+  {
+    title: "Explore",
+    items: [
+      { label: "Galaxies", href: "#galaxies" },
+      { label: "Nebulae", href: "#nebulae" }
+    ]
+  },
+  {
+    title: "Mission",
+    items: [
+      { label: "About Us", href: "#about" },
+      { label: "Our Team", href: "#team" }
+    ]
+  }
+];
 
 export default function Example() {
   return (
-    <Footer variant="animated" maxWidth="1200px">
-      <footer className="Wrapper AnimatedWrap">
-        <div className="EmberLayer">
-          {[...Array(38)].map((_, i) => (
-            <span key={i} className={"ember ember-" + i} />
-          ))}
-        </div>
-
-        <div className="Scanline" />
-
-        <div className="Inner">
-          <div className="Grid">
-            <div>
-              <h4 className="Title">Info</h4>
-              <ul className="List">
-                <li><a href="#">Formats</a></li>
-                <li><a href="#">Compression</a></li>
-                <li><a href="#">Pricing</a></li>
-                <li><a href="#">FAQ</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="Title">Resources</h4>
-              <ul className="List">
-                <li><a href="#">API</a></li>
-                <li><a href="#">Validation</a></li>
-                <li><a href="#">Marketplace</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="Title">Newsletter</h4>
-              <div className="NewsWrap">
-                <small>Stay updated with the latest releases.</small>
-                <div className="InputRow">
-                  <input className="Input" placeholder="Email..." />
-                  <button className="Button">Join</button>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <h4 className="Title">Social</h4>
-              <div className="Social">
-                <a href="#"><FaFacebookF /></a>
-                <a href="#"><FaTwitter /></a>
-                <a href="#"><FaLinkedinIn /></a>
-                <a href="#"><FaGithub /></a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
-    </Footer>
+    <Footer 
+      variant="animated" 
+      columns={animatedColumns}
+    />
   );
-}
-`,
+}`,
 };
 
 export default function FooterPage() {
-  const [variant, setVariant] = useState("primary");
-  const [copied, setCopied] = useState(false);
-  const codeExample = useMemo(() => SNIPPETS[variant], [variant]);
+  const theme = useTheme();
+  const { language } = useThemeContext();
+  
+  const t = {
+    title: language === 'id' ? 'Footer' : 'Footer',
+    desc: language === 'id' 
+      ? 'Footer biasanya muncul di bagian bawah halaman dan merupakan tempat yang tepat untuk menempatkan navigasi sekunder, tautan ke kebijakan, atau koneksi media sosial.'
+      : 'The Footer usually appears at the bottom of the page and is a great place to put secondary navigation, links to policies, or social media connections.',
+    variants: language === 'id' ? 'Varian' : 'Variants'
+  };
+  
+  const [copiedStates, setCopiedStates] = useState({});
+  const [expandedStates, setExpandedStates] = useState({});
+  const [viewModes, setViewModes] = useState({});
 
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(codeExample);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1200);
+  const handleCopy = async (variant, text) => {
+    await navigator.clipboard.writeText(text);
+    setCopiedStates((prev) => ({ ...prev, [variant]: true }));
+    setTimeout(() => {
+      setCopiedStates((prev) => ({ ...prev, [variant]: false }));
+    }, 1200);
   };
 
+  const toggleExpand = (variant) => {
+    setExpandedStates((prev) => ({ ...prev, [variant]: !prev[variant] }));
+  };
+
+  const setViewMode = (variant, mode) => {
+    setViewModes((prev) => ({ ...prev, [variant]: mode }));
+  };
+
+  const borderColor = theme.mode === 'dark' ? 'rgba(255,255,255,0.1)' : '#cbd5e1';
+
   return (
-    <section className={styles.wrapper}>
-      <h2 className={styles.title}>Footer Variants</h2>
+    <div style={{ maxWidth: 1000 }}>
+      <section style={{ marginBottom: theme.spacing.xxl }}>
+        <h1 style={{ fontSize: theme.typography.fontSize.xxl, marginBottom: theme.spacing.lg }}>{t.title}</h1>
+        <p style={{ fontSize: theme.typography.fontSize.lg, color: theme.colors.textSecondary, lineHeight: 1.6 }}>{t.desc}</p>
+      </section>
 
-      <div className={styles.grid}>
-        <div className={styles.demoBox}><FooterVariant variant="primary" /></div>
-        <div className={styles.demoBox}><FooterVariant variant="secondary" /></div>
-        <div className={styles.demoBox}><FooterVariant variant="outline" /></div>
-        <div className={styles.demoBox}><FooterVariant variant="animated" /></div>
-      </div>
+      <section>
+        <h2 style={{ fontSize: theme.typography.fontSize.xl, marginBottom: theme.spacing.xl }}>{t.variants}</h2>
+        
+        {Object.entries(SNIPPETS).map(([variant, snippet]) => {
+          const isExpanded = expandedStates[variant];
+          const currentView = viewModes[variant] || 'desktop';
+          const previewWidth = currentView === 'mobile' ? '375px' : currentView === 'tablet' ? '768px' : '100%';
+          
+          return (
+            <div key={variant} style={{ marginBottom: theme.spacing.xxl }}>
+              <h3 style={{ fontSize: theme.typography.fontSize.lg, marginBottom: theme.spacing.md, textTransform: 'capitalize' }}>{variant}</h3>
+              
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: `${theme.spacing.sm} ${theme.spacing.md}`, background: theme.colors.surface, borderTopLeftRadius: theme.radius.md, borderTopRightRadius: theme.radius.md, border: `1px solid ${borderColor}`, borderBottom: `1px solid ${borderColor}` }}>
+                <div style={{ width: '80px' }}></div>
+                <div style={{ display: 'flex', gap: theme.spacing.sm, background: theme.mode === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)', padding: '4px', borderRadius: theme.radius.sm }}>
+                  <button onClick={() => setViewMode(variant, 'desktop')} title="Desktop view" style={{ background: 'transparent', border: 'none', color: currentView === 'desktop' ? theme.colors.textPrimary : theme.colors.textSecondary, cursor: 'pointer', padding: '6px', fontSize: '1.1rem', display: 'flex', opacity: currentView === 'desktop' ? 1 : 0.6 }}><FaDesktop /></button>
+                  <button onClick={() => setViewMode(variant, 'tablet')} title="Tablet view" style={{ background: 'transparent', border: 'none', color: currentView === 'tablet' ? theme.colors.textPrimary : theme.colors.textSecondary, cursor: 'pointer', padding: '6px', fontSize: '1.1rem', display: 'flex', opacity: currentView === 'tablet' ? 1 : 0.6 }}><FaTabletScreenButton /></button>
+                  <button onClick={() => setViewMode(variant, 'mobile')} title="Mobile view" style={{ background: 'transparent', border: 'none', color: currentView === 'mobile' ? theme.colors.textPrimary : theme.colors.textSecondary, cursor: 'pointer', padding: '6px', fontSize: '1.1rem', display: 'flex', opacity: currentView === 'mobile' ? 1 : 0.6 }}><FaMobileScreenButton /></button>
+                </div>
+                <div style={{ width: '80px', display: 'flex', justifyContent: 'flex-end' }}>
+                  <button onClick={() => handleCopy(variant, snippet)} title="Copy code" style={{ background: 'transparent', color: theme.colors.textSecondary, border: 'none', padding: '6px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', fontSize: theme.typography.fontSize.sm }}>{copiedStates[variant] ? <FaCheck color={theme.colors.success || '#10B981'} /> : <FaCopy style={{ fontSize: '1.1rem' }} />}</button>
+                </div>
+              </div>
 
-      <div className={styles.codeCard}>
-        <div className={styles.toolbar}>
-          <label htmlFor="variant">Variant</label>
-          <select
-            id="variant"
-            value={variant}
-            onChange={(e) => setVariant(e.target.value)}
-            className={styles.select}
-          >
-            <option value="primary">primary</option>
-            <option value="secondary">secondary</option>
-            <option value="outline">outline</option>
-            <option value="animated">animated</option>
-          </select>
-          <button className={styles.copyBtn} onClick={handleCopy}>
-            {copied ? "Copied!" : "Copy"}
-          </button>
-        </div>
+              <div style={{ background: theme.colors.surface, padding: theme.spacing.xl, borderLeft: `1px solid ${borderColor}`, borderRight: `1px solid ${borderColor}`, minHeight: '160px', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden', transition: 'all 0.3s ease' }}>
+                <div style={{ width: previewWidth, transition: 'width 0.3s ease, padding 0.3s ease', border: currentView !== 'desktop' ? `1px dashed ${theme.colors.border}` : 'none', padding: currentView !== 'desktop' ? theme.spacing.md : 0, display: 'flex', justifyContent: 'center', background: currentView !== 'desktop' ? (theme.mode === 'dark' ? '#000' : '#fff') : 'transparent', borderRadius: currentView !== 'desktop' ? theme.radius.md : 0 }}>
+                  <Footer variant={variant} />
+                </div>
+              </div>
 
-        <div className={styles.divider}></div>
-        <pre className={styles.pre}>{codeExample}</pre>
-      </div>
-    </section>
+              <div style={{ background: theme.colors.surface, borderBottomLeftRadius: theme.radius.md, borderBottomRightRadius: theme.radius.md, border: `1px solid ${borderColor}`, borderTop: `1px solid ${borderColor}`, position: 'relative', overflow: 'hidden' }}>
+                <div style={{ maxHeight: isExpanded ? 'none' : '300px', overflow: 'hidden', padding: theme.spacing.lg, transition: 'max-height 0.3s ease' }}>
+                  <pre style={{ fontFamily: theme.typography.fontFamily.mono, fontSize: theme.typography.fontSize.sm, color: theme.mode === 'light' ? '#1F2937' : theme.colors.textSecondary, margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{snippet}</pre>
+                </div>
+                {!isExpanded ? (
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '80px', background: `linear-gradient(to bottom, transparent, ${theme.colors.surface})`, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', paddingBottom: theme.spacing.md }}>
+                    <button onClick={() => toggleExpand(variant)} style={{ background: theme.mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)', border: `1px solid ${borderColor}`, borderRadius: theme.radius.pill, padding: '6px 16px', color: theme.colors.textPrimary, cursor: 'pointer', fontSize: theme.typography.fontSize.sm, display: 'flex', alignItems: 'center', gap: '6px' }}><span>Expand Code</span><FaChevronDown /></button>
+                  </div>
+                ) : (
+                  <div style={{ display: 'flex', justifyContent: 'center', paddingBottom: theme.spacing.md, paddingTop: theme.spacing.xs, borderTop: `1px solid ${theme.colors.border}` }}>
+                    <button onClick={() => toggleExpand(variant)} style={{ background: 'transparent', border: 'none', color: theme.colors.textSecondary, cursor: 'pointer', fontSize: theme.typography.fontSize.sm, display: 'flex', alignItems: 'center', gap: '6px' }}><span>Collapse Code</span><FaChevronUp /></button>
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </section>
+    </div>
   );
 }

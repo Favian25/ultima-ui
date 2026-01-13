@@ -1,5 +1,6 @@
 "use client";
 import styled, { keyframes } from "styled-components";
+import React from 'react';
 
 const HeaderBase = styled.header`
   width: 100%;
@@ -20,7 +21,7 @@ const HeaderBase = styled.header`
 const Logo = styled.div`
   font-family: "Poppins", sans-serif;
   font-weight: 700;
-  font-size: 1.3rem;
+  font-size: 1.3rem; 
 `;
 
 const Nav = styled.nav`
@@ -189,34 +190,35 @@ const Hero = styled.div`
   }
 `;
 
-export default function HeaderVariant({ variant = "primary" }) {
-  if (variant === "primary") {
-    return (
-      <HeaderBase>
-        <Logo>Primary</Logo>
+const Header = React.forwardRef(({ 
+  variant = "primary",
+  links = [],
+  logoText,
+  className,
+  ...rest
+}, ref) => {
+  const defaultLinks = [
+    { label: "Home", href: "#" },
+    { label: "About", href: "#" },
+    { label: "Contact", href: "#" }
+  ];
 
-        <Nav>
-          <a href="#">Home</a>
-          <a href="#">About</a>
-          <a href="#">Contact</a>
-        </Nav>
+  const resolvedLinks = links.length > 0 ? links : defaultLinks;
+  const resolvedLogo = logoText || (variant === "primary" ? "Primary" : variant === "secondary" ? "Secondary" : "Outline");
 
-        <SearchBox placeholder="Search..." />
-      </HeaderBase>
-    );
-  }
+  const renderNav = () => (
+    <Nav>
+      {resolvedLinks.map(link => (
+        <a key={link.label} href={link.href}>{link.label}</a>
+      ))}
+    </Nav>
+  );
 
   if (variant === "secondary") {
     return (
-      <HeaderBase>
-        <Logo>Secondary</Logo>
-
-        <Nav>
-          <a href="#">Home</a>
-          <a href="#">About</a>
-          <a href="#">Contact</a>
-        </Nav>
-
+      <HeaderBase ref={ref} className={className} {...rest}>
+        <Logo>{resolvedLogo}</Logo>
+        {renderNav()}
         <Profile>U</Profile>
       </HeaderBase>
     );
@@ -224,44 +226,43 @@ export default function HeaderVariant({ variant = "primary" }) {
 
   if (variant === "outline") {
     return (
-      <HeaderBase>
-        <Logo>Outline</Logo>
-
-        <Nav>
-          <a href="#">Home</a>
-          <a href="#">About</a>
-          <a href="#">Contact</a>
-        </Nav>
+      <HeaderBase ref={ref} className={className} {...rest}>
+        <Logo>{resolvedLogo}</Logo>
+        {renderNav()}
       </HeaderBase>
     );
   }
 
   if (variant === "animated") {
+    return (
+      <AnimatedWrapper ref={ref} className={className} {...rest}>
+        <StarLayer $bg={STAR_MAP.far} $speed={90} $opacity={0.25} $blur={1} />
+        <StarLayer $bg={STAR_MAP.mid} $speed={55} $opacity={0.4} />
+        <StarLayer $bg={STAR_MAP.near} $speed={28} $opacity={0.65} />
+
+        <AnimatedHeaderContainer>
+          <Logo style={{ color: "#d8f3ff" }}>Animated</Logo>
+          {renderNav()}
+        </AnimatedHeaderContainer>
+
+        <Hero>
+          <h1>Explore the Cosmos</h1>
+          <p>Dive into an infinite universe of creativity.</p>
+        </Hero>
+      </AnimatedWrapper>
+    );
+  }
 
   return (
-    <AnimatedWrapper>
-      <StarLayer $bg={STAR_MAP.far} $speed={90} $opacity={0.25} $blur={1} />
-      <StarLayer $bg={STAR_MAP.mid} $speed={55} $opacity={0.4} />
-      <StarLayer $bg={STAR_MAP.near} $speed={28} $opacity={0.65} />
-
-      <AnimatedHeaderContainer>
-        <Logo style={{ color: "#d8f3ff" }}>Animated</Logo>
-
-        <Nav>
-          <a href="#">Home</a>
-          <a href="#">About</a>
-          <a href="#">Contact</a>
-        </Nav>
-      </AnimatedHeaderContainer>
-
-      <Hero>
-        <h1>Explore the Cosmos</h1>
-        <p>Dive into an infinite universe of creativity.</p>
-      </Hero>
-    </AnimatedWrapper>
+    <HeaderBase ref={ref} className={className} {...rest}>
+      <Logo>{resolvedLogo}</Logo>
+      {renderNav()}
+      <SearchBox placeholder="Search..." />
+    </HeaderBase>
   );
-}
+});
 
+Header.displayName = "Header";
 
-  return null;
-}
+export { Header };
+export default Header;

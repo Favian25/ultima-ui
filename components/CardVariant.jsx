@@ -1,5 +1,6 @@
 "use client";
 import styled, { keyframes } from "styled-components";
+import React from 'react';
 
 /* ======================================================
    TOKENS
@@ -12,28 +13,10 @@ const surface = "#ffffff";
 const soft = "#f1f5f9";
 
 /* ======================================================
-   DEFAULT CONFIG (PUBLIC API FRIENDLY)
-====================================================== */
-const VARIANT_LABEL = {
-  primary: "Primary Card",
-  secondary: "Secondary Card",
-  outline: "Outline Card",
-  animated: "Animated Card",
-};
-
-const DEFAULT_PROPS = {
-  image: "https://i.ibb.co.com/xtdsRQhQ/Hu-Tao.jpg",
-  desc: "Deskripsi singkat komponen card.",
-  tags: ["Design", "Next.js", "Styled"],
-  ctaPrimary: { label: "Detail", href: "#" },
-  ctaGhost: { label: "Preview", href: "#" },
-};
-
-/* ======================================================
    BASE COMPONENTS
 ====================================================== */
 const CardBase = styled.article`
-  width: auto;
+  width: 100%; /* Changed from max-width to 100% for container control */
   max-width: 520px;
   margin: 0 auto;
   border-radius: 16px;
@@ -78,6 +61,7 @@ const Actions = styled.div`
     font-weight: 800;
     cursor: pointer;
     text-decoration: none;
+    display: inline-block;
   }
 `;
 
@@ -207,7 +191,7 @@ const borderAnim = keyframes`
 
 const AnimatedWrap = styled.article`
   position: relative;
-  width: auto;
+  width: 100%;
   max-width: 520px;
   margin: 0 auto;
   border-radius: 16px;
@@ -263,16 +247,20 @@ const AnimatedWrap = styled.article`
 /* ======================================================
    COMPONENT
 ====================================================== */
-export default function CardVariant({
+const Card = React.forwardRef(({
   variant = "primary",
   title,
-  desc = DEFAULT_PROPS.desc,
-  image = DEFAULT_PROPS.image,
-  tags = DEFAULT_PROPS.tags,
-  ctaPrimary = DEFAULT_PROPS.ctaPrimary,
-  ctaGhost = DEFAULT_PROPS.ctaGhost,
-}) {
-  const resolvedTitle = title || VARIANT_LABEL[variant] || "Ultima UI Card";
+  desc,
+  image,
+  tags = [],
+  ctaPrimary,
+  ctaGhost,
+  className,
+  ...rest
+}, ref) => {
+  const resolvedTitle = title || "Card Title";
+  const resolvedDesc = desc;
+  const resolvedImage = image;
 
   const renderMeta = () => (
     <>
@@ -286,7 +274,7 @@ export default function CardVariant({
 
       <div style={{ marginTop: 10 }}>
         <Title>{resolvedTitle}</Title>
-        {desc && <Desc>{desc}</Desc>}
+        {resolvedDesc && <Desc>{resolvedDesc}</Desc>}
       </div>
 
       {(ctaPrimary || ctaGhost) && (
@@ -308,9 +296,9 @@ export default function CardVariant({
 
   if (variant === "secondary") {
     return (
-      <SecondaryWrap>
+      <SecondaryWrap ref={ref} className={className} {...rest}>
         <div className="media">
-          <img src={image} alt={resolvedTitle} />
+          <img src={resolvedImage} alt={resolvedTitle} />
         </div>
         <div className="body">{renderMeta()}</div>
       </SecondaryWrap>
@@ -319,9 +307,9 @@ export default function CardVariant({
 
   if (variant === "outline") {
     return (
-      <OutlineWrap>
+      <OutlineWrap ref={ref} className={className} {...rest}>
         <div className="media">
-          <img src={image} alt={resolvedTitle} />
+          <img src={resolvedImage} alt={resolvedTitle} />
         </div>
         <div className="body">{renderMeta()}</div>
       </OutlineWrap>
@@ -330,10 +318,10 @@ export default function CardVariant({
 
   if (variant === "animated") {
     return (
-      <AnimatedWrap>
+      <AnimatedWrap ref={ref} className={className} {...rest}>
         <div className="media">
           <div className="media-inner">
-            <img src={image} alt={resolvedTitle} />
+            <img src={resolvedImage} alt={resolvedTitle} />
           </div>
         </div>
         <div className="body">{renderMeta()}</div>
@@ -343,11 +331,16 @@ export default function CardVariant({
 
   /* PRIMARY (DEFAULT) */
   return (
-    <PrimaryWrap>
+    <PrimaryWrap ref={ref} className={className} {...rest}>
       <div className="media">
-        <img src={image} alt={resolvedTitle} />
+        <img src={resolvedImage} alt={resolvedTitle} />
       </div>
       <div className="body">{renderMeta()}</div>
     </PrimaryWrap>
   );
-}
+});
+
+Card.displayName = "Card";
+
+export { Card };
+export default Card;

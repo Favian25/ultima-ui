@@ -44,17 +44,24 @@ const GlobalCSSVars = createGlobalStyle`
   }
 `;
 
+// ... overrides ...
+
 export default function Providers({ children }) {
   const [mode, setMode] = useState("light");
+  const [language, setLanguage] = useState("id");
 
   const toggleTheme = () => {
     setMode((prev) => (prev === "light" ? "dark" : "light"));
   };
 
+  const toggleLanguage = () => {
+    setLanguage((prev) => (prev === "id" ? "en" : "id"));
+  };
+
   const theme = mode === "light" ? lightTheme : darkTheme;
 
   return (
-    <ThemeContext.Provider value={{ mode, toggleTheme }}>
+    <ThemeContext.Provider value={{ mode, toggleTheme, language, toggleLanguage }}>
       <ThemeProvider theme={theme}>
         <GlobalCSSVars />
         {children}

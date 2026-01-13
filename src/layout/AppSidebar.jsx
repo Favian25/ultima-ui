@@ -3,13 +3,13 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import styled from "styled-components";
-import { useThemeContext } from "../src/app/Provider";
-import { APP_HEADER_H } from "./AppHeader";
+import { useThemeContext } from "../app/Provider";
+const APP_HEADER_H = 64;
 
-const SIDEBAR_W = 260;
+export const SIDEBAR_W = 260; // Export width for use elsewhere
 export const APP_SIDEBAR_W = SIDEBAR_W;
 
-const menu = [
+export const menu = [
   { label: "Button", href: "/button" },
   { label: "Header", href: "/header" },
   { label: "Footer", href: "/footer" },
@@ -29,8 +29,12 @@ const SidebarContainer = styled.aside`
   padding: 24px 16px;
   font-family: ${({ theme }) => theme.typography.fontFamily.base};
   overflow-y: auto;
-  z-index: 40;
+  z-index: 90;
   transition: background 0.3s ease;
+
+  @media (max-width: 960px) {
+    display: none;
+  }
 `;
 
 const SectionLabel = styled.div`
@@ -62,7 +66,7 @@ const NavItem = styled(Link)`
   overflow: hidden;
 
   /* Color Logic */
-  color: ${({ theme }) => theme.mode === 'light' ? theme.colors.textPrimary : 'rgba(255,255,255,0.85)'};
+  color: ${({ theme }) => theme.mode === 'light' ? theme.colors.textPrimary : theme.colors.textInverted};
 
   &:hover {
     background: ${({ theme }) => theme.mode === 'light' ? 'rgba(0,0,0,0.04)' : 'rgba(255,255,255,0.06)'};
@@ -83,7 +87,7 @@ const NavItem = styled(Link)`
 
 export default function AppSidebar() {
   const pathname = usePathname();
-  const { mode } = useThemeContext();
+  const { mode, language } = useThemeContext();
 
   const isActive = (href) => {
     return pathname === href || pathname.startsWith(`${href}/`);
@@ -91,17 +95,17 @@ export default function AppSidebar() {
 
   return (
     <SidebarContainer>
-      <SectionLabel>Documentation</SectionLabel>
+      <SectionLabel>{language === 'id' ? 'Dokumentasi' : 'Documentation'}</SectionLabel>
       <nav>
         <NavItem 
           href="/docs" 
           aria-current={isActive("/docs") && pathname !== "/docs/components" ? "page" : undefined}
         >
-          Get Started
+          {language === 'id' ? 'Mulai' : 'Get Started'}
         </NavItem>
 
         <Spacer />
-        <SectionLabel>Components</SectionLabel>
+        <SectionLabel>{language === 'id' ? 'Komponen' : 'Components'}</SectionLabel>
 
         {menu.map((item) => (
           <NavItem
@@ -116,4 +120,3 @@ export default function AppSidebar() {
     </SidebarContainer>
   );
 }
-

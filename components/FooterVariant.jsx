@@ -1,5 +1,6 @@
 "use client";
 import styled, { keyframes } from "styled-components";
+import React from 'react';
 import { FaFacebookF, FaGithub, FaLinkedinIn, FaTwitter } from "react-icons/fa";
 
 const darkBg = "#0b1220";
@@ -17,7 +18,7 @@ const Wrapper = styled.footer`
 
 const Inner = styled.div`
   width: 100%;
-  max-width: ${({ maxw }) => maxw || "1200px"};
+  max-width: ${({ $maxw }) => $maxw || "1200px"};
   margin: 0 auto;
   padding: 36px 24px;
   font-family: "Nunito", sans-serif;
@@ -216,6 +217,9 @@ const OutlineWrap = styled(Wrapper)`
   a:hover {
     text-decoration: underline;
   }
+  ${Title} {
+      color: ${lightInk};
+  }
 `;
 
 // Animated Variant
@@ -325,85 +329,75 @@ const Scanline = styled.div`
   opacity: 0.25;
 `;
 
-export default function FooterVariant({ variant = "primary", maxWidth = "1200px" }) {
-  if (variant === "primary") {
+const Footer = React.forwardRef((props, ref) => {
+  const { 
+    variant = "primary", 
+    maxWidth = "1200px",
+    columns,
+    className,
+    ...rest
+  } = props;
+
+  // Default Content
+  const defaultColumns = [
+    {
+      title: "Info",
+      items: [
+        { label: "Formats", href: "#" },
+        { label: "Compression", href: "#" },
+        { label: "Pricing", href: "#" },
+        { label: "FAQ", href: "#" },
+        { label: "Status", href: "#" },
+        { label: "Policy", href: "#" }
+      ]
+    },
+    {
+      title: "Getting Started",
+      items: [
+         { label: "Introduction", href: "#" },
+         { label: "Themes", href: "#" },
+         { label: "Documentation", href: "#" },
+         { label: "Usages", href: "#" },
+         { label: "Elements", href: "#" },
+         { label: "Global", href: "#" }
+      ]
+    },
+    {
+       title: "Resources",
+       items: [
+         { label: "API", href: "#" },
+         { label: "Form Validation", href: "#" },
+         { label: "Accessibility", href: "#" },
+         { label: "Marketplace", href: "#" },
+         { label: "Visibility", href: "#" },
+         { label: "Community", href: "#" }
+       ]
+    }
+  ];
+
+  const resolvedColumns = columns || defaultColumns;
+
+  const renderColumns = () => (
+    <>
+      {resolvedColumns.map((col, idx) => (
+        <div key={idx}>
+          <Title>{col.title}</Title>
+          <List>
+            {col.items.map(link => (
+              <li key={link.label}><a href={link.href}>{link.label}</a></li>
+            ))}
+          </List>
+        </div>
+      ))}
+    </>
+  );
+
+   if (variant === "secondary") {
     return (
-      <PrimaryWrap>
-        <Inner maxw={maxWidth}>
-          <Grid>
-            <div>
-              <Title>Info</Title>
-              <List>
-                <li><a href="#">Formats</a></li>
-                <li><a href="#">Compression</a></li>
-                <li><a href="#">Pricing</a></li>
-                <li><a href="#">FAQ</a></li>
-                <li><a href="#">Status</a></li>
-                <li><a href="#">Policy</a></li>
-              </List>
-            </div>
-
-            <div>
-              <Title>Getting Started</Title>
-              <List>
-                <li><a href="#">Introduction</a></li>
-                <li><a href="#">Themes</a></li>
-                <li><a href="#">Documentation</a></li>
-                <li><a href="#">Usages</a></li>
-                <li><a href="#">Elements</a></li>
-                <li><a href="#">Global</a></li>
-              </List>
-            </div>
-
-            <div>
-              <Title>Resources</Title>
-              <List>
-                <li><a href="#">API</a></li>
-                <li><a href="#">Form Validation</a></li>
-                <li><a href="#">Accessibility</a></li>
-                <li><a href="#">Marketplace</a></li>
-                <li><a href="#">Visibility</a></li>
-                <li><a href="#">Community</a></li>
-              </List>
-            </div>
-
-            <div>
-              <Title>Newsletter</Title>
-              <NewsWrap>
-                <small>
-                  Subscribe to our newsletter for a weekly dose of news, updates, helpful tips, and exclusive offers.
-                </small>
-                <InputRow>
-                  <Input placeholder="Your email" aria-label="Email address" />
-                  <Button type="button">SUBSCRIBE</Button>
-                </InputRow>
-
-                <Social aria-label="Social links">
-                  <a href="#" aria-label="Facebook"><FaFacebookF /></a>
-                  <a href="#" aria-label="GitHub"><FaGithub /></a>
-                  <a href="#" aria-label="LinkedIn"><FaLinkedinIn /></a>
-                  <a href="#" aria-label="Twitter"><FaTwitter /></a>
-                </Social>
-              </NewsWrap>
-            </div>
-          </Grid>
-
-          <Divider />
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
-            <Brand>Ultima UI</Brand>
-            <small style={{ color: softText }}>© {new Date().getFullYear()} Ultima UI. All rights reserved.</small>
-          </div>
-        </Inner>
-      </PrimaryWrap>
-    );
-  }
-
-  if (variant === "secondary") {
-    return (
-      <SecondaryWrap>
-        <Inner maxw={maxWidth}>
-          <div style={{ display: "grid", gap: 22, gridTemplateColumns: "2fr 2fr 1.5fr" }}>
-            <div>
+      <SecondaryWrap ref={ref} className={className} {...rest}>
+        <Inner $maxw={maxWidth}>
+          <div style={{ display: "grid", gap: 22, gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
+            <div style={{gridColumn: 'span 2'}}>
               <Brand>Ultima UI</Brand>
               <p style={{ margin: "8px 0 0", color: lightSub, lineHeight: 1.6 }}>
                 Komponen siap pakai untuk Next.js + styled-components, berpadu BEM + Sass.
@@ -430,15 +424,7 @@ export default function FooterVariant({ variant = "primary", maxWidth = "1200px"
               </NewsWrap>
             </div>
 
-            <div>
-              <Title>Links</Title>
-              <List>
-                <li><a href="#">Docs</a></li>
-                <li><a href="#">Changelog</a></li>
-                <li><a href="#">Components</a></li>
-                <li><a href="#">Figma Kit</a></li>
-              </List>
-            </div>
+            {renderColumns()}
           </div>
 
           <Divider />
@@ -457,7 +443,7 @@ export default function FooterVariant({ variant = "primary", maxWidth = "1200px"
 
   if (variant === "animated") {
   return (
-    <AnimatedWrap>
+    <AnimatedWrap ref={ref} className={className} {...rest}>
       <EmberLayer>
         {Array.from({ length: 38 }).map((_, i) => (
           <span
@@ -480,26 +466,9 @@ export default function FooterVariant({ variant = "primary", maxWidth = "1200px"
 
       <Scanline />
 
-      <Inner maxw={maxWidth}>
+      <Inner $maxw={maxWidth}>
         <Grid>
-          <div>
-            <Title>Info</Title>
-            <List>
-              <li><a href="#">Formats</a></li>
-              <li><a href="#">Compression</a></li>
-              <li><a href="#">Pricing</a></li>
-              <li><a href="#">FAQ</a></li>
-            </List>
-          </div>
-
-          <div>
-            <Title>Resources</Title>
-            <List>
-              <li><a href="#">API</a></li>
-              <li><a href="#">Validation</a></li>
-              <li><a href="#">Marketplace</a></li>
-            </List>
-          </div>
+          {renderColumns()}
 
           <div>
             <Title>Newsletter</Title>
@@ -526,10 +495,11 @@ export default function FooterVariant({ variant = "primary", maxWidth = "1200px"
     </AnimatedWrap>
   );
 }
-
-  return (
-    <OutlineWrap>
-      <Inner maxw={maxWidth}>
+  
+  if (variant === "outline") {
+      return (
+    <OutlineWrap ref={ref} className={className} {...rest}>
+      <Inner $maxw={maxWidth}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
           <Brand>Ultima UI</Brand>
           <nav style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
@@ -582,4 +552,47 @@ export default function FooterVariant({ variant = "primary", maxWidth = "1200px"
       </Inner>
     </OutlineWrap>
   );
-}
+  }
+
+  // Primary Default
+  return (
+      <PrimaryWrap ref={ref} className={className} {...rest}>
+        <Inner $maxw={maxWidth}>
+          <Grid>
+            {renderColumns()}
+
+            <div>
+              <Title>Newsletter</Title>
+              <NewsWrap>
+                <small>
+                  Subscribe to our newsletter for a weekly dose of news, updates, helpful tips, and exclusive offers.
+                </small>
+                <InputRow>
+                  <Input placeholder="Your email" aria-label="Email address" />
+                  <Button type="button">SUBSCRIBE</Button>
+                </InputRow>
+
+                <Social aria-label="Social links">
+                  <a href="#" aria-label="Facebook"><FaFacebookF /></a>
+                  <a href="#" aria-label="GitHub"><FaGithub /></a>
+                  <a href="#" aria-label="LinkedIn"><FaLinkedinIn /></a>
+                  <a href="#" aria-label="Twitter"><FaTwitter /></a>
+                </Social>
+              </NewsWrap>
+            </div>
+          </Grid>
+
+          <Divider />
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: 'wrap' }}>
+            <Brand>Ultima UI</Brand>
+            <small style={{ color: softText }}>© {new Date().getFullYear()} Ultima UI. All rights reserved.</small>
+          </div>
+        </Inner>
+      </PrimaryWrap>
+    );
+});
+
+Footer.displayName = "Footer";
+
+export { Footer };
+export default Footer;

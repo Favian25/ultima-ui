@@ -1,5 +1,6 @@
 "use client";
 import styled, { keyframes } from "styled-components";
+import React from 'react';
 import { FaHouse, FaBoxOpen, FaUsers, FaChartLine, FaBookOpen, FaPuzzlePiece, FaGear, FaCircleQuestion } from "react-icons/fa6";
 
 const brand = "#14203d";
@@ -43,6 +44,8 @@ const Item = styled.a`
   font-weight: 800;
   transition: 0.18s ease;
   outline: none;
+  cursor: pointer;
+
   .ic {
     text-align: center;
     font-size: 1rem;
@@ -57,6 +60,7 @@ const Item = styled.a`
 const Primary = styled(AsideBase)`
   width: 260px;
   height: 100%;
+  min-height: 600px;
   background: ${brand};
   color: #eaf2ff;
   border-radius: 18px;
@@ -84,6 +88,7 @@ const Primary = styled(AsideBase)`
 const Outline = styled(AsideBase)`
   width: 260px;
   height: 100%;
+  min-height: 600px;
   background: #fff;
   color: ${ink};
   border: 2px solid ${ink};
@@ -105,6 +110,7 @@ const Outline = styled(AsideBase)`
 const Rail = styled(AsideBase)`
   width: 84px;
   height: 100%;
+  min-height: 600px;
   background: #14203d;
   color: #ffffff;
   border-radius: 18px;
@@ -147,7 +153,7 @@ const Rail = styled(AsideBase)`
   }
 
   ${Item} .label {
-    display: none; /* tetap hidden */
+    display: none;
   }
 `;
 
@@ -198,7 +204,6 @@ const ParticleLayer = styled.div`
     animation: ${floatParticle} 7s ease-in-out infinite;
   }
 
-  /* posisi & timing manual (SSR-safe) */
   span:nth-child(1)  { top: 14%; left: 18%; animation-delay: 0s; }
   span:nth-child(2)  { top: 26%; left: 72%; animation-delay: 1.2s; }
   span:nth-child(3)  { top: 38%; left: 32%; animation-delay: 2.4s; }
@@ -219,6 +224,7 @@ const Animated = styled(AsideBase)`
   z-index: 0;
   width: 260px;
   height: 100%;
+  min-height: 600px;
   background: #14203d;
   color: #eaf2ff;
   border-radius: 18px;
@@ -248,7 +254,6 @@ const Animated = styled(AsideBase)`
     transform: translateX(2px);
   }
 
-  /* icon wiggle on hover */
   ${Item}:hover .ic {
     animation: ${wiggle} 0.45s ease-in-out;
   }
@@ -258,14 +263,13 @@ const Animated = styled(AsideBase)`
   }
 `;
 
-
-const itemsMain = [
+const defaultMain = [
   { ic: <FaHouse />, label: "Dashboard", kbd: "D", key: "dash" },
   { ic: <FaBoxOpen />, label: "Products", kbd: "P", key: "prod" },
   { ic: <FaUsers />, label: "Customers", kbd: "C", key: "cust" },
   { ic: <FaChartLine />, label: "Analytics", kbd: "A", key: "ana" },
 ];
-const itemsUtil = [
+const defaultUtils = [
   { ic: <FaGear />, label: "Settings", key: "set" },
   { ic: <FaCircleQuestion />, label: "Help", key: "help" },
 ];
@@ -274,7 +278,7 @@ function renderItems(list, activeKey) {
   return (
     <Nav>
       {list.map((it) => (
-        <Item key={it.key} href="#" data-active={activeKey === it.key}>
+        <Item key={it.key} as="div" data-active={activeKey === it.key}>
           <span className="ic">{it.ic}</span>
           <span className="label">{it.label}</span>
           {it.kbd ? <span className="kbd">{it.kbd}</span> : <span />}
@@ -284,85 +288,88 @@ function renderItems(list, activeKey) {
   );
 }
 
-export default function SidebarVariant({ variant = "primary", active = "dash" }) {
+const Sidebar = React.forwardRef(({ 
+  variant = "primary", 
+  active = "dash",
+  menuGroups,
+  className,
+  ...rest
+}, ref) => {
+  // Default structure if no custom groups provided
+  const resolvedGroups = menuGroups || [
+    { title: "Main", items: defaultMain },
+    { title: "Library", items: [
+      { ic: <FaBookOpen />, label: "Docs", key: "docs" },
+      { ic: <FaPuzzlePiece />, label: "Components", key: "comp" },
+    ]},
+    { title: null, items: defaultUtils }
+  ];
+
+  const renderGroups = () => (
+     <>
+       {resolvedGroups.map((group, idx) => (
+         <div key={idx} style={{ marginBottom: 14 }}>
+            {group.title && <GroupTitle>{group.title}</GroupTitle>}
+            {renderItems(group.items, active)}
+         </div>
+       ))}
+     </>
+  );
+
   if (variant === "primary") {
     return (
-      <Primary>
+      <Primary ref={ref} className={className} {...rest}>
         <Brand>Primary</Brand>
-        <div>
-          <GroupTitle>Main</GroupTitle>
-          {renderItems(itemsMain, active)}
-          <GroupTitle style={{ marginTop: 14 }}>Library</GroupTitle>
-          {renderItems(
-            [
-              { ic: <FaBookOpen />, label: "Docs", key: "docs" },
-              { ic: <FaPuzzlePiece />, label: "Components", key: "comp" },
-            ],
-            active
-          )}
+        <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+          <div style={{ flex: 1 }}>{renderGroups()}</div>
         </div>
-        <div>{renderItems(itemsUtil, active)}</div>
       </Primary>
     );
   }
 
   if (variant === "outline") {
     return (
-      <Outline>
+      <Outline ref={ref} className={className} {...rest}>
         <Brand>Outline</Brand>
-        <div>
-          <GroupTitle>Navigasi</GroupTitle>
-          {renderItems(itemsMain, active)}
-        </div>
-        <div>{renderItems(itemsUtil, active)}</div>
+        <div style={{ flex: 1 }}>{renderGroups()}</div>
       </Outline>
     );
   }
 
-if (variant === "animated") {
-  return (
-    <Animated>
-      <ParticleLayer>
-        <span />
-        <span />
-        <span />
-        <span />
-        <span />
-        <span />
-        <span />
-        <span />
-        <span />
-        <span />
-        <span />
-        <span />
-      </ParticleLayer>
+  if (variant === "animated") {
+    return (
+      <Animated ref={ref} className={className} {...rest}>
+        <ParticleLayer>
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+        </ParticleLayer>
 
-      <Brand>Animated</Brand>
+        <Brand>Animated</Brand>
 
-      <div>
-        <GroupTitle>Main</GroupTitle>
-        {renderItems(itemsMain, active)}
-
-        <GroupTitle style={{ marginTop: 14 }}>Library</GroupTitle>
-        {renderItems(
-          [
-            { ic: <FaBookOpen />, label: "Docs", key: "docs" },
-            { ic: <FaPuzzlePiece />, label: "Components", key: "comp" },
-          ],
-          active
-        )}
-      </div>
-
-      <div>{renderItems(itemsUtil, active)}</div>
-    </Animated>
-  );
-}
+        <div style={{ flex: 1, position: 'relative', zIndex: 2 }}>{renderGroups()}</div>
+      </Animated>
+    );
+  }
 
   return (
-    <Rail>
+    <Rail ref={ref} className={className} {...rest}>
       <Brand>Rail</Brand>
-      <div>{renderItems(itemsMain, active)}</div>
-      <div>{renderItems(itemsUtil, active)}</div>
+      <div style={{ flex: 1 }}>{renderGroups()}</div>
     </Rail>
   );
-}
+});
+
+Sidebar.displayName = "Sidebar";
+
+export { Sidebar };
+export default Sidebar;

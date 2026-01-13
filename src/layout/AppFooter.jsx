@@ -2,7 +2,8 @@
 import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
-import { colors, spacing } from "../src/app/token/theme";
+import { useThemeContext } from "../app/Provider";
+import { colors, spacing } from "../app/token/theme";
 
 const Footer = styled.footer`
   width: 100%;
@@ -14,7 +15,13 @@ const Footer = styled.footer`
   margin-top: auto;
   transition: background 0.3s ease;
   position: relative;
-  z-index: 100; /* Ensure above sidebar if overlap occurs */
+  /* Desktop: Above Sidebar (90) */
+  z-index: 95; 
+
+  /* Mobile/Tablet: Below Sidebar */
+  @media (max-width: 960px) {
+    z-index: 10;
+  }
 `;
 
 const Container = styled.div`
@@ -131,6 +138,28 @@ const BottomRow = styled.div`
 `;
 
 export default function AppFooter() {
+  const { language } = useThemeContext();
+
+  const t = {
+    desc: language === 'id' 
+      ? "Sistem desain modern untuk aplikasi web masa depan." 
+      : "A modern design system for future web applications.",
+    links: language === 'id' ? "Tautan" : "Links",
+    social: language === 'id' ? "Sosial" : "Social",
+    legal: language === 'id' ? "Legal" : "Legal",
+    home: language === 'id' ? "Beranda" : "Home",
+    docs: language === 'id' ? "Dokumentasi" : "Docs",
+    components: language === 'id' ? "Komponen" : "Components",
+    privacy: language === 'id' ? "Privasi" : "Privacy",
+    terms: language === 'id' ? "Syarat" : "Terms",
+    builtWith: language === 'id' ? "Dibuat dengan" : "Built with",
+    by: language === 'id' ? "oleh" : "by",
+    rights: language === 'id' ? "Hak cipta dilindungi." : "All rights reserved.",
+    getStarted: language === 'id' ? "Mulai" : "Get Started",
+    nav: language === "id" ? "Navigasi" : "Navigation",
+    version: language === "id" ? "Versi" : "Version"
+  };
+
   return (
     <Footer>
       <Container>
@@ -142,20 +171,20 @@ export default function AppFooter() {
                Ultima UI
              </h3>
              <p>
-               A modern design system for building premium, accessible, and high-performance web applications.
+               {t.desc}
              </p>
           </BrandCol>
 
           {/* Col 2: Docs */}
           <LinkGroup>
-            <h4>Navigation</h4>
-            <FooterLink href="/docs">Get Started</FooterLink>
-            <FooterLink href="/docs/components">Documentation</FooterLink>
+            <h4>{t.nav}</h4>
+            <FooterLink href="/docs">{t.getStarted}</FooterLink>
+            <FooterLink href="/docs/components">{t.components}</FooterLink>
           </LinkGroup>
 
           {/* Col 3: Version (Replaces Meta) */}
           <LinkGroup>
-            <h4>Version</h4>
+            <h4>{t.version}</h4>
             <div style={{ fontSize: '0.95rem', color: colors.textSecondary, fontWeight: 500 }}>
               v0.1.5
             </div>
@@ -169,11 +198,11 @@ export default function AppFooter() {
 
         <BottomRow>
           <div>
-            &copy; {new Date().getFullYear()} Ultima UI. All rights reserved.
+            &copy; {new Date().getFullYear()} Favian Nurruddin - STIKOM PGRI Banyuwangi | {t.rights}
           </div>
           <div style={{ display: 'flex', gap: 20 }}>
-            <FooterLink href="#">Privacy</FooterLink>
-            <FooterLink href="#">Terms</FooterLink>
+            <FooterLink href="#">{t.privacy}</FooterLink>
+            <FooterLink href="#">{t.terms}</FooterLink>
           </div>
         </BottomRow>
       </Container>

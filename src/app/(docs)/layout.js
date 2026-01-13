@@ -1,16 +1,37 @@
 "use client";
 
-import AppSidebar from "../../../components/AppSidebar";
+import styled from "styled-components";
+import AppSidebar, { SIDEBAR_W } from "../../layout/AppSidebar";
 import theme from "../../app/token/theme";
+
 const { spacing } = theme;
+
+const LayoutContainer = styled.div`
+  display: flex;
+  min-height: 100vh;
+  padding-top: 64px;
+`;
+
+const MainContent = styled.div`
+  flex: 1;
+  padding: ${spacing.lg};
+  margin-left: ${SIDEBAR_W}px;
+  width: 100%;
+  box-sizing: border-box;
+
+  @media (max-width: 960px) {
+    margin-left: 0;
+    padding: ${spacing.md};
+  }
+`;
 
 export default function DocsLayout({ children }) {
   return (
-    <div style={{ display: "flex", minHeight: "100vh", paddingTop: 64, paddingLeft: 15, paddingRight: 15, paddingBottom: 30 }}>
+    <LayoutContainer>
       <AppSidebar />
-      <div style={{ flex: 1, padding: spacing.lg, marginLeft: 260 }}>
+      <MainContent>
         {children}
-      </div>
-    </div>
+      </MainContent>
+    </LayoutContainer>
   );
 }

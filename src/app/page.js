@@ -23,8 +23,43 @@ const StyledButton = styled(Link)`
   }
 `;
 
+// ... imports ...
+import { useThemeContext } from "./Provider"; 
+
+// ... StyledButton ...
+
+const PreviewGrid = styled.div`
+  background: ${props => props.theme.mode === 'dark' ? props.theme.colors.surface : '#fff'};
+  border: 1px solid ${props => props.theme.colors.border};
+  border-radius: ${props => props.theme.radius.lg};
+  padding: ${props => props.theme.spacing.xl};
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: ${props => props.theme.spacing.xl};
+  align-items: center;
+
+  @media (max-width: 960px) {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+`;
+
 export default function LandingPage() {
   const theme = useTheme();
+  const { language } = useThemeContext();
+
+  const t = {
+    titleStart: language === 'id' ? "Bangun Lebih Cepat dengan" : "Build Faster with",
+    subtitle: language === 'id' 
+      ? "Sistem desain modern, aksesibel, dan mudah disesuaikan untuk membangun aplikasi web premium."
+      : "A modern, accessible, and customizable design system for building premium web applications.",
+    getStarted: language === 'id' ? "Mulai Sekarang" : "Get Started",
+    previewTitle: language === 'id' ? "Komponen Siap Pakai" : "Ready-to-use Components",
+    previewDesc: language === 'id'
+      ? "Semua yang kamu butuhkan untuk UI hebat. Dari Tombol hingga Kartu, bergaya lengkap dan aksesibel."
+      : "Everything you need to build a great UI. From Buttons to Cards, fully styled and accessible.",
+    powerBy: language === 'id' ? "Ditenagai oleh Teknologi Teratas" : "Powered By Top Technologies"
+  };
 
   return (
     <>
@@ -33,14 +68,14 @@ export default function LandingPage() {
         {/* Hero Section */}
         <section style={{ textAlign: "center", padding: "80px 0 60px" }}>
           <h1 style={{ 
-            fontSize: "3.5rem", 
+            fontSize: "clamp(2.5rem, 5vw, 3.5rem)", 
             fontWeight: 800, 
             letterSpacing: "-0.02em", 
             marginBottom: theme.spacing.md,
             color: theme.colors.textPrimary,
-            marginTop: 64, // Compensate for fixed header
+            marginTop: 64, 
           }}>
-            Build Faster with <span style={{ color: theme.colors.gold }}>Ultima UI</span>
+            {t.titleStart} <span style={{ color: theme.colors.gold }}>Ultima UI</span>
           </h1>
           <p style={{ 
             fontSize: theme.typography.fontSize.xl, 
@@ -49,27 +84,18 @@ export default function LandingPage() {
             margin: "0 auto 40px", 
             lineHeight: 1.6 
           }}>
-            A modern, accessible, and customizable design system for building premium web applications.
+            {t.subtitle}
           </p>
           <div style={{ display: "flex", gap: theme.spacing.md, justifyContent: "center" }}>
             <StyledButton href="/docs">
-              Get Started <FiArrowRight />
+              {t.getStarted} <FiArrowRight />
             </StyledButton>
           </div>
         </section>
 
         {/* Component Preview Section */}
         <section style={{ margin: "60px 0" }}>
-          <div style={{ 
-            background: theme.mode === 'dark' ? theme.colors.surface : '#fff', 
-            border: `1px solid ${theme.colors.border}`, 
-            borderRadius: theme.radius.lg, 
-            padding: theme.spacing.xl,
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: theme.spacing.xl,
-            alignItems: "center"
-          }}>
+          <PreviewGrid>
             <div>
               <span style={{ 
                 color: theme.colors.gold, 
@@ -80,9 +106,9 @@ export default function LandingPage() {
               }}>
                 Component Preview
               </span>
-              <h2 style={{ fontSize: "2rem", margin: "10px 0 20px" }}>Ready-to-use Components</h2>
+              <h2 style={{ fontSize: "2rem", margin: "10px 0 20px" }}>{t.previewTitle}</h2>
               <p style={{ color: theme.colors.textSecondary, marginBottom: theme.spacing.lg }}>
-                Everything you need to build a great UI. From Buttons to Cards, fully styled and accessible.
+                {t.previewDesc}
               </p>
               <div style={{ background: "#1e1e1e", padding: "20px", borderRadius: theme.radius.md, color: "#fff", fontFamily: theme.typography.fontFamily.mono, fontSize: "0.85rem", overflowX: "auto" }}>
                 <pre style={{ margin: 0 }}>
@@ -105,10 +131,11 @@ export default function Example() {
               </div>
             </div>
 
-            <div style={{ display: "flex", justifyContent: "center" }}>
+            <div style={{ display: "flex", justifyContent: "center", width: '100%' }}>
               {/* Preview Card */}
               <div style={{ 
-                width: 320, 
+                width: "100%",
+                maxWidth: 340,
                 background: theme.colors.secondary,
                 borderRadius: theme.radius.lg, 
                 boxShadow: theme.shadow.md,
@@ -154,7 +181,7 @@ export default function Example() {
                 </div>
               </div>
             </div>
-          </div>
+          </PreviewGrid>
         </section>
 
       </div>
@@ -168,7 +195,7 @@ export default function Example() {
           width: "100%"
         }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <h3 style={{ opacity: 0.7, textTransform: "uppercase", fontSize: "0.875rem", letterSpacing: "1px", marginBottom: theme.spacing.xl, color: "#9ca3af" }}>Powered By Top Technologies</h3>
+          <h3 style={{ opacity: 0.7, textTransform: "uppercase", fontSize: "0.875rem", letterSpacing: "1px", marginBottom: theme.spacing.xl, color: "#9ca3af" }}>{t.powerBy}</h3>
           <div style={{ display: "flex", justifyContent: "center", gap: 60, flexWrap: "wrap", color: "#ffffff" }}>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
               <RiNextjsLine size={48} color={theme.colors.gold} />

@@ -1,338 +1,219 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import SidebarVariant from "../../../../components/SidebarVariant";
-import styles from "./sidebar.module.css";
-
-function DemoShell({ children }) {
-  return (
-    <div className={styles.shell}>
-      <div className={styles.sidebarArea}>{children}</div>
-      <div className={styles.contentArea}>
-        <h3>Content Area</h3>
-        <p>Main Content Dummy</p>
-        <div className={styles.cards}>
-          <div className={styles.card} />
-          <div className={styles.card} />
-          <div className={styles.card} />
-        </div>
-      </div>
-    </div>
-  );
-}
+import { useState } from "react";
+import { useTheme } from "styled-components";
+import { FaDesktop, FaTabletScreenButton, FaMobileScreenButton, FaCopy, FaCheck, FaChevronDown, FaChevronUp } from "react-icons/fa6";
+import { useThemeContext } from "../../Provider";
+import { Sidebar } from "../../../../components/SidebarVariant";
 
 const SNIPPETS = {
-  primary: `import { FaHouse, FaBoxOpen, FaUsers, FaChartLine, FaBookOpen, FaPuzzlePiece, FaGear, FaCircleQuestion } from "react-icons/fa6";
-import { Sidebar } from "ultima-ui";
+  primary: `import { Sidebar } from "ultima-ui";
+import { FaHouse, FaBoxOpen, FaUsers, FaGear, FaCircleQuestion } from "react-icons/fa6";
+
+// Primary variant: dark sidebar with grouped navigation
+const primaryMenu = [
+  {
+    title: "Main",
+    items: [
+      { ic: <FaHouse />, label: "Dashboard", key: "dash", kbd: "D" },
+      { ic: <FaBoxOpen />, label: "Products", key: "prod", kbd: "P" },
+      { ic: <FaUsers />, label: "Customers", key: "cust", kbd: "C" }
+    ]
+  },
+  {
+    title: "Support",
+    items: [
+      { ic: <FaGear />, label: "Settings", key: "settings" },
+      { ic: <FaCircleQuestion />, label: "Help Center", key: "help" }
+    ]
+  }
+];
 
 export default function Example() {
   return (
-    <Sidebar variant="primary" active="dash">
-
-      <div className="brand">Primary</div>
-
-      <div>
-        <div className="group-title">Main</div>
-
-        <nav className="nav">
-          <a className="item" data-active="true">
-            <span className="ic"><FaHouse /></span>
-            <span className="label">Dashboard</span>
-            <span className="kbd">D</span>
-          </a>
-
-          <a className="item">
-            <span className="ic"><FaBoxOpen /></span>
-            <span className="label">Products</span>
-            <span className="kbd">P</span>
-          </a>
-
-          <a className="item">
-            <span className="ic"><FaUsers /></span>
-            <span className="label">Customers</span>
-            <span className="kbd">C</span>
-          </a>
-
-          <a className="item">
-            <span className="ic"><FaChartLine /></span>
-            <span className="label">Analytics</span>
-            <span className="kbd">A</span>
-          </a>
-        </nav>
-
-        <div className="group-title" style={{ marginTop: 14 }}>
-          Library
-        </div>
-
-        <nav className="nav">
-          <a className="item">
-            <span className="ic"><FaBookOpen /></span>
-            <span className="label">Docs</span>
-          </a>
-          <a className="item">
-            <span className="ic"><FaPuzzlePiece /></span>
-            <span className="label">Components</span>
-          </a>
-        </nav>
-      </div>
-
-      <div>
-        <nav className="nav">
-          <a className="item">
-            <span className="ic"><FaGear /></span>
-            <span className="label">Settings</span>
-          </a>
-          <a className="item">
-            <span className="ic"><FaCircleQuestion /></span>
-            <span className="label">Help</span>
-          </a>
-        </nav>
-      </div>
-
-    </Sidebar>
+    <div style={{ height: "600px" }}>
+      <Sidebar 
+        variant="primary" 
+        active="dash" 
+        menuGroups={primaryMenu} 
+      />
+    </div>
   );
-}
-`,
+}`,
 
-  outline: `import { FaHouse, FaBoxOpen, FaUsers, FaChartLine, FaGear, FaCircleQuestion } from "react-icons/fa6";
-import { Sidebar } from "ultima-ui";
+  outline: `import { Sidebar } from "ultima-ui";
+import { FaHouse, FaFileLines, FaLayerGroup, FaGear } from "react-icons/fa6";
+
+// Outline variant: light sidebar with bordered style
+const outlineMenu = [
+  {
+    title: "Navigation",
+    items: [
+      { ic: <FaHouse />, label: "Home", key: "home" },
+      { ic: <FaFileLines />, label: "Documents", key: "docs" },
+      { ic: <FaLayerGroup />, label: "Projects", key: "projects" }
+    ]
+  },
+  {
+    title: null,
+    items: [{ ic: <FaGear />, label: "Preferences", key: "prefs" }]
+  }
+];
 
 export default function Example() {
   return (
-    <Sidebar variant="outline" active="dash">
-
-      <div className="brand">Outline</div>
-
-      <div>
-        <div className="group-title">Navigasi</div>
-
-        <nav className="nav">
-          <a className="item" data-active="true">
-            <span className="ic"><FaHouse /></span>
-            <span className="label">Dashboard</span>
-            <span className="kbd">D</span>
-          </a>
-
-          <a className="item">
-            <span className="ic"><FaBoxOpen /></span>
-            <span className="label">Products</span>
-            <span className="kbd">P</span>
-          </a>
-
-          <a className="item">
-            <span className="ic"><FaUsers /></span>
-            <span className="label">Customers</span>
-            <span className="kbd">C</span>
-          </a>
-
-          <a className="item">
-            <span className="ic"><FaChartLine /></span>
-            <span className="label">Analytics</span>
-            <span className="kbd">A</span>
-          </a>
-        </nav>
-      </div>
-
-      <div>
-        <nav className="nav">
-          <a className="item">
-            <span className="ic"><FaGear /></span>
-            <span className="label">Settings</span>
-          </a>
-          <a className="item">
-            <span className="ic"><FaCircleQuestion /></span>
-            <span className="label">Help</span>
-          </a>
-        </nav>
-      </div>
-
-    </Sidebar>
+    <div style={{ height: "600px" }}>
+      <Sidebar 
+        variant="outline" 
+        active="home" 
+        menuGroups={outlineMenu} 
+      />
+    </div>
   );
-}
-`,
+}`,
 
-  rail: `import { FaHouse, FaBoxOpen, FaUsers, FaChartLine, FaGear, FaCircleQuestion } from "react-icons/fa6";
-import { Sidebar } from "ultima-ui";
+  rail: `import { Sidebar } from "ultima-ui";
+import { FaHouse, FaFolder, FaBell, FaGear } from "react-icons/fa6";
+
+// Rail variant: compact icon-only sidebar (labels hidden)
+const railMenu = [
+  {
+    title: null,
+    items: [
+      { ic: <FaHouse />, label: "Home", key: "home" },
+      { ic: <FaFolder />, label: "Files", key: "files" },
+      { ic: <FaBell />, label: "Notifications", key: "notif" },
+      { ic: <FaGear />, label: "Settings", key: "settings" }
+    ]
+  }
+];
 
 export default function Example() {
   return (
-    <Sidebar variant="rail" active="dash">
-
-      <div className="brand">Rail</div>
-
-      <div>
-        <nav className="nav">
-          <a className="item" data-active="true">
-            <span className="ic"><FaHouse /></span>
-          </a>
-
-          <a className="item">
-            <span className="ic"><FaBoxOpen /></span>
-          </a>
-
-          <a className="item">
-            <span className="ic"><FaUsers /></span>
-          </a>
-
-          <a className="item">
-            <span className="ic"><FaChartLine /></span>
-          </a>
-        </nav>
-      </div>
-
-      <div>
-        <nav className="nav">
-          <a className="item">
-            <span className="ic"><FaGear /></span>
-          </a>
-          <a className="item">
-            <span className="ic"><FaCircleQuestion /></span>
-          </a>
-        </nav>
-      </div>
-
-    </Sidebar>
+    <div style={{ height: "600px" }}>
+      <Sidebar 
+        variant="rail" 
+        active="home" 
+        menuGroups={railMenu} 
+      />
+    </div>
   );
-}
-`,
+}`,
 
   animated: `import { Sidebar } from "ultima-ui";
-import { FaHouse, FaBoxOpen, FaUsers, FaChartLine, FaBookOpen, FaPuzzlePiece, FaGear, FaCircleQuestion } from "react-icons/fa6";
+import { FaRocket, FaStar, FaPlanetRinged, FaSatelliteDish } from "react-icons/fa6";
+
+// Animated variant: dark sidebar with breathing animation
+const spaceMenu = [
+  {
+    title: "Mission Control",
+    items: [
+      { ic: <FaRocket />, label: "Launch Pad", key: "launch", kbd: "L" },
+      { ic: <FaStar />, label: "Star Map", key: "starmap" },
+      { ic: <FaPlanetRinged />, label: "Planets", key: "planets" }
+    ]
+  },
+  {
+    title: "Communications",
+    items: [{ ic: <FaSatelliteDish />, label: "Signal Hub", key: "signals" }]
+  }
+];
 
 export default function Example() {
   return (
-    <Sidebar variant="animated" active="dash">
-
-      <div className="brand">Animated</div>
-
-      <div>
-        <div className="group-title">Main</div>
-
-        <nav className="nav">
-          <a className="item" data-active="true">
-            <span className="ic"><FaHouse /></span>
-            <span className="label">Dashboard</span>
-            <span className="kbd">D</span>
-          </a>
-
-          <a className="item">
-            <span className="ic"><FaBoxOpen /></span>
-            <span className="label">Products</span>
-            <span className="kbd">P</span>
-          </a>
-
-          <a className="item">
-            <span className="ic"><FaUsers /></span>
-            <span className="label">Customers</span>
-            <span className="kbd">C</span>
-          </a>
-
-          <a className="item">
-            <span className="ic"><FaChartLine /></span>
-            <span className="label">Analytics</span>
-            <span className="kbd">A</span>
-          </a>
-        </nav>
-
-        <div className="group-title">
-          Library
-        </div>
-
-        <nav className="nav">
-          <a className="item">
-            <span className="ic"><FaBookOpen /></span>
-            <span className="label">Docs</span>
-          </a>
-          <a className="item">
-            <span className="ic"><FaPuzzlePiece /></span>
-            <span className="label">Components</span>
-          </a>
-        </nav>
-      </div>
-
-      <div>
-        <nav className="nav">
-          <a className="item">
-            <span className="ic"><FaGear /></span>
-            <span className="label">Settings</span>
-          </a>
-          <a className="item">
-            <span className="ic"><FaCircleQuestion /></span>
-            <span className="label">Help</span>
-          </a>
-        </nav>
-      </div>
-
-    </Sidebar>
+    <div style={{ height: "600px" }}>
+      <Sidebar 
+        variant="animated" 
+        active="launch" 
+        menuGroups={spaceMenu} 
+      />
+    </div>
   );
-}
-`,
+}`,
 };
 
 export default function SidebarPage() {
-  const [variantSnippet, setVariantSnippet] = useState("primary");
-  const [copied, setCopied] = useState(false);
-  const codeExample = useMemo(
-    () => SNIPPETS[variantSnippet],
-    [variantSnippet]
-  );
+  const theme = useTheme();
+  const { language } = useThemeContext();
+  
+  const t = {
+    title: language === 'id' ? 'Sidebar' : 'Sidebar',
+    desc: language === 'id' 
+      ? 'Sidebar adalah panel navigasi vertikal yang biasanya muncul di sisi kiri atau kanan aplikasi. Ini menyediakan akses cepat ke bagian utama dan fitur penting dari aplikasi Anda.'
+      : 'A Sidebar is a vertical navigation panel that typically appears on the left or right side of an application. It provides quick access to main sections and important features of your app.',
+    variants: language === 'id' ? 'Varian' : 'Variants'
+  };
+  
+  const [copiedStates, setCopiedStates] = useState({});
+  const [expandedStates, setExpandedStates] = useState({});
+  const [viewModes, setViewModes] = useState({});
 
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(codeExample);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1200);
+  const handleCopy = async (variant, text) => {
+    await navigator.clipboard.writeText(text);
+    setCopiedStates((prev) => ({ ...prev, [variant]: true }));
+    setTimeout(() => { setCopiedStates((prev) => ({ ...prev, [variant]: false })); }, 1200);
   };
 
+  const toggleExpand = (variant) => { setExpandedStates((prev) => ({ ...prev, [variant]: !prev[variant] })); };
+  const setViewMode = (variant, mode) => { setViewModes((prev) => ({ ...prev, [variant]: mode })); };
+
+  const borderColor = theme.mode === 'dark' ? 'rgba(255,255,255,0.1)' : '#cbd5e1';
+
   return (
-    <section className={styles.wrapper}>
-      <h2 className={styles.title}>Sidebar Variants — Ultima UI</h2>
+    <div style={{ maxWidth: 1000 }}>
+      <section style={{ marginBottom: theme.spacing.xxl }}>
+        <h1 style={{ fontSize: theme.typography.fontSize.xxl, marginBottom: theme.spacing.lg }}>{t.title}</h1>
+        <p style={{ fontSize: theme.typography.fontSize.lg, color: theme.colors.textSecondary, lineHeight: 1.6 }}>{t.desc}</p>
+      </section>
 
-      <div className={styles.grid}>
-        <div className={styles.demoBox}>
-          <DemoShell>
-            <SidebarVariant variant="primary" />
-          </DemoShell>
-        </div>
-        <div className={styles.demoBox}>
-          <DemoShell>
-            <SidebarVariant variant="outline" />
-          </DemoShell>
-        </div>
-        <div className={styles.demoBox}>
-          <DemoShell>
-            <SidebarVariant variant="rail" />
-          </DemoShell>
-        </div>
-        <div className={styles.demoBox}>
-          <DemoShell>
-            <SidebarVariant variant="animated" />
-          </DemoShell>
-        </div>
-      </div>
+      <section>
+        <h2 style={{ fontSize: theme.typography.fontSize.xl, marginBottom: theme.spacing.xl }}>{t.variants}</h2>
+        
+        {Object.entries(SNIPPETS).map(([variant, snippet]) => {
+          const isExpanded = expandedStates[variant];
+          const currentView = viewModes[variant] || 'desktop';
+          const previewWidth = currentView === 'mobile' ? '375px' : currentView === 'tablet' ? '768px' : '100%';
+          
+          return (
+            <div key={variant} style={{ marginBottom: theme.spacing.xxl }}>
+              <h3 style={{ fontSize: theme.typography.fontSize.lg, marginBottom: theme.spacing.md, textTransform: 'capitalize' }}>{variant}</h3>
+              
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: `${theme.spacing.sm} ${theme.spacing.md}`, background: theme.colors.surface, borderTopLeftRadius: theme.radius.md, borderTopRightRadius: theme.radius.md, border: `1px solid ${borderColor}`, borderBottom: `1px solid ${borderColor}` }}>
+                <div style={{ width: '80px' }}></div>
+                <div style={{ display: 'flex', gap: theme.spacing.sm, background: theme.mode === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)', padding: '4px', borderRadius: theme.radius.sm }}>
+                  <button onClick={() => setViewMode(variant, 'desktop')} title="Desktop view" style={{ background: 'transparent', border: 'none', color: currentView === 'desktop' ? theme.colors.textPrimary : theme.colors.textSecondary, cursor: 'pointer', padding: '6px', fontSize: '1.1rem', display: 'flex', opacity: currentView === 'desktop' ? 1 : 0.6 }}><FaDesktop /></button>
+                  <button onClick={() => setViewMode(variant, 'tablet')} title="Tablet view" style={{ background: 'transparent', border: 'none', color: currentView === 'tablet' ? theme.colors.textPrimary : theme.colors.textSecondary, cursor: 'pointer', padding: '6px', fontSize: '1.1rem', display: 'flex', opacity: currentView === 'tablet' ? 1 : 0.6 }}><FaTabletScreenButton /></button>
+                  <button onClick={() => setViewMode(variant, 'mobile')} title="Mobile view" style={{ background: 'transparent', border: 'none', color: currentView === 'mobile' ? theme.colors.textPrimary : theme.colors.textSecondary, cursor: 'pointer', padding: '6px', fontSize: '1.1rem', display: 'flex', opacity: currentView === 'mobile' ? 1 : 0.6 }}><FaMobileScreenButton /></button>
+                </div>
+                <div style={{ width: '80px', display: 'flex', justifyContent: 'flex-end' }}>
+                  <button onClick={() => handleCopy(variant, snippet)} title="Copy code" style={{ background: 'transparent', color: theme.colors.textSecondary, border: 'none', padding: '6px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', fontSize: theme.typography.fontSize.sm }}>{copiedStates[variant] ? <FaCheck color={theme.colors.success || '#10B981'} /> : <FaCopy style={{ fontSize: '1.1rem' }} />}</button>
+                </div>
+              </div>
 
-      <div className={styles.codeCard}>
-        <div className={styles.toolbar}>
-          <label htmlFor="snip">Variant</label>
-          <select
-            id="snip"
-            value={variantSnippet}
-            onChange={(e) => setVariantSnippet(e.target.value)}
-            className={styles.select}
-          >
-            <option value="primary">primary</option>
-            <option value="outline">outline</option>
-            <option value="rail">rail</option>
-            <option value="animated">animated</option>
-          </select>
+              <div style={{ background: theme.colors.surface, padding: theme.spacing.xl, borderLeft: `1px solid ${borderColor}`, borderRight: `1px solid ${borderColor}`, minHeight: '500px', display: 'flex', justifyContent: 'center', alignItems: 'flex-start', overflow: 'hidden', transition: 'all 0.3s ease' }}>
+                <div style={{ width: previewWidth, height: '500px', transition: 'width 0.3s ease, padding 0.3s ease', border: currentView !== 'desktop' ? `1px dashed ${theme.colors.border}` : 'none', padding: currentView !== 'desktop' ? theme.spacing.md : 0, display: 'flex', justifyContent: 'flex-start', background: currentView !== 'desktop' ? (theme.mode === 'dark' ? '#000' : '#fff') : 'transparent', borderRadius: currentView !== 'desktop' ? theme.radius.md : 0 }}>
+                  <Sidebar variant={variant} />
+                </div>
+              </div>
 
-          <button className={styles.copyBtn} onClick={handleCopy}>
-            {copied ? "Copied!" : "Copy"}
-          </button>
-        </div>
-
-        <div className={styles.divider} />
-        <pre className={styles.pre}>{codeExample}</pre>
-      </div>
-    </section>
+              <div style={{ background: theme.colors.surface, borderBottomLeftRadius: theme.radius.md, borderBottomRightRadius: theme.radius.md, border: `1px solid ${borderColor}`, borderTop: `1px solid ${borderColor}`, position: 'relative', overflow: 'hidden' }}>
+                <div style={{ maxHeight: isExpanded ? 'none' : '300px', overflow: 'hidden', padding: theme.spacing.lg, transition: 'max-height 0.3s ease' }}>
+                  <pre style={{ fontFamily: theme.typography.fontFamily.mono, fontSize: theme.typography.fontSize.sm, color: theme.mode === 'light' ? '#1F2937' : theme.colors.textSecondary, margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{snippet}</pre>
+                </div>
+                {!isExpanded ? (
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '80px', background: `linear-gradient(to bottom, transparent, ${theme.colors.surface})`, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', paddingBottom: theme.spacing.md }}>
+                    <button onClick={() => toggleExpand(variant)} style={{ background: theme.mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)', border: `1px solid ${borderColor}`, borderRadius: theme.radius.pill, padding: '6px 16px', color: theme.colors.textPrimary, cursor: 'pointer', fontSize: theme.typography.fontSize.sm, display: 'flex', alignItems: 'center', gap: '6px' }}><span>Expand Code</span><FaChevronDown /></button>
+                  </div>
+                ) : (
+                  <div style={{ display: 'flex', justifyContent: 'center', paddingBottom: theme.spacing.md, paddingTop: theme.spacing.xs, borderTop: `1px solid ${theme.colors.border}` }}>
+                    <button onClick={() => toggleExpand(variant)} style={{ background: 'transparent', border: 'none', color: theme.colors.textSecondary, cursor: 'pointer', fontSize: theme.typography.fontSize.sm, display: 'flex', alignItems: 'center', gap: '6px' }}><span>Collapse Code</span><FaChevronUp /></button>
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </section>
+    </div>
   );
 }

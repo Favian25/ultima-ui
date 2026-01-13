@@ -1,7 +1,7 @@
 import "./globals.css";
 import Providers from "./Provider";
-import AppHeader from "../../components/AppHeader";
-import AppFooter from "../../components/AppFooter";
+import AppHeader from "../layout/AppHeader";
+import AppFooter from "../layout/AppFooter";
 
 
 export const metadata = {
@@ -21,7 +21,7 @@ export default function RootLayout({ children }) {
       >
         <Providers>
           <AppHeader />
-          <main style={{ flex: 1 }}>{children}</main>
+          <main style={{ flex: 1, paddingTop: '64px', width: '100%' }}>{children}</main>
           <AppFooter />
         </Providers>
       </body>
