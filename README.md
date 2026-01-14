@@ -13,12 +13,6 @@ Ultima UI is a lightweight and modern React UI library built with styled-compone
 
 ---
 
-## Keywords
-
-`react`, `ui-library`, `styled-components`, `nextjs`, `ultima-ui`, `components`
-
----
-
 ## Installation
 
 ```bash

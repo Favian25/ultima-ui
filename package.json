@@ -1,6 +1,17 @@
 {
   "name": "ultima-ui",
-  "version": "0.1.7",
+  "version": "0.1.8",
+  "description": "Ultima UI is a lightweight and modern React UI library built with styled-components. Designed for Next.js projects, dashboards, landing pages, and rapid MVP development.",
+  "keywords": [
+    "react",
+    "ui-library",
+    "styled-components",
+    "nextjs",
+    "ultima-ui",
+    "components"
+  ],
+  "author": "Ultima UI",
+  "license": "MIT",
   "type": "module",
   "main": "index.js",
   "exports": {
