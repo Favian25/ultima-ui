@@ -2,15 +2,53 @@
 
 import { useState } from "react";
 import { useTheme } from "styled-components";
-import { FaDesktop, FaTabletScreenButton, FaMobileScreenButton, FaCopy, FaCheck, FaChevronDown, FaChevronUp } from "react-icons/fa6";
+import { FaDesktop, FaTabletScreenButton, FaMobileScreenButton, FaCopy, FaCheck, FaChevronDown, FaChevronUp, FaHouse, FaBoxOpen, FaUsers, FaGear, FaCircleQuestion, FaFileLines, FaLayerGroup, FaFolder, FaBell, FaRocket, FaStar, FaGlobe, FaSatelliteDish } from "react-icons/fa6";
 import { useThemeContext } from "../../Provider";
 import { Sidebar } from "../../../../components/SidebarVariant";
+
+const ContentGrid = ({ theme }) => {
+  const boxBg = theme.mode === 'dark' ? '#1f2937' : '#e5e7eb';
+  const borderColor = theme.mode === 'dark' ? '#374151' : '#d1d5db';
+  const textColor = theme.mode === 'dark' ? '#6b7280' : '#9ca3af';
+  
+  return (
+    <div style={{ flex: 1, padding: '16px', display: 'grid', gap: '16px', gridTemplateColumns: 'repeat(3, 1fr)', gridTemplateRows: 'auto auto auto', alignContent: 'start', background: theme.mode === 'dark' ? '#111827' : '#f9fafb', minHeight: '100%' }}>
+      {/* Top 3 cards */}
+      {[1, 2, 3].map(i => (
+        <div key={`top-${i}`} style={{ background: boxBg, borderRadius: '12px', border: `2px dashed ${borderColor}`, height: '100px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <span style={{ fontSize: '24px', color: textColor, fontWeight: 300 }}>+</span>
+        </div>
+      ))}
+      {/* Large content area spanning 2 cols */}
+      <div style={{ gridColumn: 'span 2', background: boxBg, borderRadius: '12px', border: `2px dashed ${borderColor}`, height: '180px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <span style={{ fontSize: '28px', color: textColor, fontWeight: 300 }}>+</span>
+      </div>
+      {/* Side panel */}
+      <div style={{ display: 'grid', gap: '16px' }}>
+        <div style={{ background: boxBg, borderRadius: '12px', border: `2px dashed ${borderColor}`, height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <span style={{ fontSize: '20px', color: textColor, fontWeight: 300 }}>+</span>
+        </div>
+        <div style={{ background: boxBg, borderRadius: '12px', border: `2px dashed ${borderColor}`, height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <span style={{ fontSize: '20px', color: textColor, fontWeight: 300 }}>+</span>
+        </div>
+      </div>
+      {/* Bottom 2 large cards */}
+      <div style={{ background: boxBg, borderRadius: '12px', border: `2px dashed ${borderColor}`, height: '120px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <span style={{ fontSize: '24px', color: textColor, fontWeight: 300 }}>+</span>
+      </div>
+      <div style={{ gridColumn: 'span 2', background: boxBg, borderRadius: '12px', border: `2px dashed ${borderColor}`, height: '120px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <span style={{ fontSize: '24px', color: textColor, fontWeight: 300 }}>+</span>
+      </div>
+    </div>
+  );
+};
 
 const SNIPPETS = {
   primary: `import { Sidebar } from "ultima-ui";
 import { FaHouse, FaBoxOpen, FaUsers, FaGear, FaCircleQuestion } from "react-icons/fa6";
 
-// Primary variant: dark sidebar with grouped navigation
+// NOTE: Install react-icons first: npm install react-icons
+
 const primaryMenu = [
   {
     title: "Main",
@@ -35,7 +73,8 @@ export default function Example() {
       <Sidebar 
         variant="primary" 
         active="dash" 
-        menuGroups={primaryMenu} 
+        menuGroups={primaryMenu}
+        brandText="MyApp"
       />
     </div>
   );
@@ -44,7 +83,8 @@ export default function Example() {
   outline: `import { Sidebar } from "ultima-ui";
 import { FaHouse, FaFileLines, FaLayerGroup, FaGear } from "react-icons/fa6";
 
-// Outline variant: light sidebar with bordered style
+// NOTE: Install react-icons first: npm install react-icons
+
 const outlineMenu = [
   {
     title: "Navigation",
@@ -66,7 +106,8 @@ export default function Example() {
       <Sidebar 
         variant="outline" 
         active="home" 
-        menuGroups={outlineMenu} 
+        menuGroups={outlineMenu}
+        brandText="DokumenKu"
       />
     </div>
   );
@@ -75,7 +116,8 @@ export default function Example() {
   rail: `import { Sidebar } from "ultima-ui";
 import { FaHouse, FaFolder, FaBell, FaGear } from "react-icons/fa6";
 
-// Rail variant: compact icon-only sidebar (labels hidden)
+// NOTE: Install react-icons first: npm install react-icons
+
 const railMenu = [
   {
     title: null,
@@ -94,23 +136,25 @@ export default function Example() {
       <Sidebar 
         variant="rail" 
         active="home" 
-        menuGroups={railMenu} 
+        menuGroups={railMenu}
+        brandText="R"
       />
     </div>
   );
 }`,
 
   animated: `import { Sidebar } from "ultima-ui";
-import { FaRocket, FaStar, FaPlanetRinged, FaSatelliteDish } from "react-icons/fa6";
+import { FaRocket, FaStar, FaGlobe, FaSatelliteDish } from "react-icons/fa6";
 
-// Animated variant: dark sidebar with breathing animation
+// NOTE: Install react-icons first: npm install react-icons
+
 const spaceMenu = [
   {
     title: "Mission Control",
     items: [
       { ic: <FaRocket />, label: "Launch Pad", key: "launch", kbd: "L" },
       { ic: <FaStar />, label: "Star Map", key: "starmap" },
-      { ic: <FaPlanetRinged />, label: "Planets", key: "planets" }
+      { ic: <FaGlobe />, label: "Planets", key: "planets" }
     ]
   },
   {
@@ -125,11 +169,87 @@ export default function Example() {
       <Sidebar 
         variant="animated" 
         active="launch" 
-        menuGroups={spaceMenu} 
+        menuGroups={spaceMenu}
+        brandText="SpaceApp"
       />
     </div>
   );
 }`,
+};
+
+const PREVIEW_PROPS = {
+  primary: {
+    menuGroups: [
+      {
+        title: "Main",
+        items: [
+          { ic: <FaHouse />, label: "Dashboard", key: "dash", kbd: "D" },
+          { ic: <FaBoxOpen />, label: "Products", key: "prod", kbd: "P" },
+          { ic: <FaUsers />, label: "Customers", key: "cust", kbd: "C" }
+        ]
+      },
+      {
+        title: "Support",
+        items: [
+          { ic: <FaGear />, label: "Settings", key: "settings" },
+          { ic: <FaCircleQuestion />, label: "Help Center", key: "help" }
+        ]
+      }
+    ],
+    brandText: "MyApp",
+    active: "dash"
+  },
+  outline: {
+    menuGroups: [
+      {
+        title: "Navigation",
+        items: [
+          { ic: <FaHouse />, label: "Home", key: "home" },
+          { ic: <FaFileLines />, label: "Documents", key: "docs" },
+          { ic: <FaLayerGroup />, label: "Projects", key: "projects" }
+        ]
+      },
+      {
+        title: null,
+        items: [{ ic: <FaGear />, label: "Preferences", key: "prefs" }]
+      }
+    ],
+    brandText: "DokumenKu",
+    active: "home"
+  },
+  rail: {
+    menuGroups: [
+      {
+        title: null,
+        items: [
+          { ic: <FaHouse />, label: "Home", key: "home" },
+          { ic: <FaFolder />, label: "Files", key: "files" },
+          { ic: <FaBell />, label: "Notifications", key: "notif" },
+          { ic: <FaGear />, label: "Settings", key: "settings" }
+        ]
+      }
+    ],
+    brandText: "R",
+    active: "home"
+  },
+  animated: {
+    menuGroups: [
+      {
+        title: "Mission Control",
+        items: [
+          { ic: <FaRocket />, label: "Launch Pad", key: "launch", kbd: "L" },
+          { ic: <FaStar />, label: "Star Map", key: "starmap" },
+          { ic: <FaGlobe />, label: "Planets", key: "planets" }
+        ]
+      },
+      {
+        title: "Communications",
+        items: [{ ic: <FaSatelliteDish />, label: "Signal Hub", key: "signals" }]
+      }
+    ],
+    brandText: "SpaceApp",
+    active: "launch"
+  }
 };
 
 export default function SidebarPage() {
@@ -190,9 +310,10 @@ export default function SidebarPage() {
                 </div>
               </div>
 
-              <div style={{ background: theme.colors.surface, padding: theme.spacing.xl, borderLeft: `1px solid ${borderColor}`, borderRight: `1px solid ${borderColor}`, minHeight: '500px', display: 'flex', justifyContent: 'center', alignItems: 'flex-start', overflow: 'hidden', transition: 'all 0.3s ease' }}>
-                <div style={{ width: previewWidth, height: '500px', transition: 'width 0.3s ease, padding 0.3s ease', border: currentView !== 'desktop' ? `1px dashed ${theme.colors.border}` : 'none', padding: currentView !== 'desktop' ? theme.spacing.md : 0, display: 'flex', justifyContent: 'flex-start', background: currentView !== 'desktop' ? (theme.mode === 'dark' ? '#000' : '#fff') : 'transparent', borderRadius: currentView !== 'desktop' ? theme.radius.md : 0 }}>
-                  <Sidebar variant={variant} />
+              <div style={{ background: theme.colors.surface, padding: theme.spacing.xl, borderLeft: `1px solid ${borderColor}`, borderRight: `1px solid ${borderColor}`, minHeight: '650px', display: 'flex', justifyContent: 'center', alignItems: 'flex-start', overflow: 'hidden', transition: 'all 0.3s ease' }}>
+                <div style={{ width: previewWidth, height: '620px', transition: 'width 0.3s ease, padding 0.3s ease', border: currentView !== 'desktop' ? `1px dashed ${theme.colors.border}` : 'none', padding: currentView !== 'desktop' ? theme.spacing.md : 0, display: 'flex', justifyContent: 'flex-start', background: currentView !== 'desktop' ? (theme.mode === 'dark' ? '#000' : '#fff') : 'transparent', borderRadius: currentView !== 'desktop' ? theme.radius.md : 0 }}>
+                  <Sidebar variant={variant} {...PREVIEW_PROPS[variant]} />
+                  <ContentGrid theme={theme} />
                 </div>
               </div>
 

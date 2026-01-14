@@ -9,7 +9,7 @@ const { spacing } = theme;
 const LayoutContainer = styled.div`
   display: flex;
   min-height: 100vh;
-  padding-top: 64px;
+  padding-top: 10px;
 `;
 
 const MainContent = styled.div`

@@ -190,10 +190,14 @@ const Hero = styled.div`
   }
 `;
 
-const Header = React.forwardRef(({ 
+const Header = React.forwardRef(({
   variant = "primary",
   links = [],
   logoText,
+  searchPlaceholder = "Search...",
+  profileInitial = "U",
+  heroTitle = "Explore the Cosmos",
+  heroSubtitle = "Dive into an infinite universe of creativity.",
   className,
   ...rest
 }, ref) => {
@@ -204,7 +208,7 @@ const Header = React.forwardRef(({
   ];
 
   const resolvedLinks = links.length > 0 ? links : defaultLinks;
-  const resolvedLogo = logoText || (variant === "primary" ? "Primary" : variant === "secondary" ? "Secondary" : "Outline");
+  const resolvedLogo = logoText || (variant === "primary" ? "Primary" : variant === "secondary" ? "Secondary" : variant === "animated" ? "Animated" : "Outline");
 
   const renderNav = () => (
     <Nav>
@@ -219,7 +223,7 @@ const Header = React.forwardRef(({
       <HeaderBase ref={ref} className={className} {...rest}>
         <Logo>{resolvedLogo}</Logo>
         {renderNav()}
-        <Profile>U</Profile>
+        <Profile>{profileInitial}</Profile>
       </HeaderBase>
     );
   }
@@ -241,13 +245,13 @@ const Header = React.forwardRef(({
         <StarLayer $bg={STAR_MAP.near} $speed={28} $opacity={0.65} />
 
         <AnimatedHeaderContainer>
-          <Logo style={{ color: "#d8f3ff" }}>Animated</Logo>
+          <Logo style={{ color: "#d8f3ff" }}>{resolvedLogo}</Logo>
           {renderNav()}
         </AnimatedHeaderContainer>
 
         <Hero>
-          <h1>Explore the Cosmos</h1>
-          <p>Dive into an infinite universe of creativity.</p>
+          <h1>{heroTitle}</h1>
+          <p>{heroSubtitle}</p>
         </Hero>
       </AnimatedWrapper>
     );
@@ -257,7 +261,7 @@ const Header = React.forwardRef(({
     <HeaderBase ref={ref} className={className} {...rest}>
       <Logo>{resolvedLogo}</Logo>
       {renderNav()}
-      <SearchBox placeholder="Search..." />
+      <SearchBox placeholder={searchPlaceholder} />
     </HeaderBase>
   );
 });

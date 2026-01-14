@@ -9,7 +9,6 @@ import { Footer } from "../../../../components/FooterVariant";
 const SNIPPETS = {
   primary: `import { Footer } from "ultima-ui";
 
-// Primary variant: dark footer with columns, newsletter, and social icons
 const primaryColumns = [
   {
     title: "Product",
@@ -43,13 +42,23 @@ export default function Example() {
       variant="primary" 
       columns={primaryColumns}
       maxWidth="1200px"
+      brandName="MyCompany"
+      description="Dapatkan tips dan update terbaru langsung ke inbox kamu."
+      copyright="© 2026 MyCompany. Semua hak dilindungi."
+      newsletter={{
+        title: "Berlangganan",
+        placeholder: "Masukkan email...",
+        buttonText: "DAFTAR"
+      }}
     />
   );
 }`,
 
   secondary: `import { Footer } from "ultima-ui";
+import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
 
-// Secondary variant: light footer with brand section, newsletter, and columns
+// NOTE: Install react-icons first: npm install react-icons
+
 const secondaryColumns = [
   {
     title: "Legal",
@@ -67,30 +76,66 @@ const secondaryColumns = [
   }
 ];
 
+const mySocialLinks = [
+  { icon: <FaFacebookF />, href: "https://facebook.com", label: "Facebook" },
+  { icon: <FaInstagram />, href: "https://instagram.com", label: "Instagram" },
+  { icon: <FaTwitter />, href: "https://twitter.com", label: "Twitter" }
+];
+
 export default function Example() {
   return (
     <Footer 
       variant="secondary" 
       columns={secondaryColumns}
+      brandName="SecondaryBrand"
+      description="Platform terbaik untuk kebutuhan bisnismu."
+      copyright="© 2026 SecondaryBrand"
+      newsletter={{
+        title: "Newsletter",
+        placeholder: "Email address",
+        buttonText: "Subscribe",
+        disclaimer: "By subscribing, you agree to our privacy policy."
+      }}
+      socialLinks={mySocialLinks}
+      bottomLinks={[
+        { label: "Terms", href: "/terms" },
+        { label: "Privacy", href: "/privacy" }
+      ]}
     />
   );
 }`,
 
   outline: `import { Footer } from "ultima-ui";
 
-// Outline variant: minimal single-line footer with inline nav
 export default function Example() {
   return (
     <Footer 
       variant="outline" 
       maxWidth="1000px"
+      brandName="OutlineBrand"
+      copyright="© 2026 OutlineBrand"
+      navLinks={[
+        { label: "Dokumentasi", href: "/docs" },
+        { label: "Komponen", href: "/components" },
+        { label: "Harga", href: "/pricing" }
+      ]}
+      newsletter={{
+        placeholder: "Email kamu",
+        buttonText: "Langganan"
+      }}
+      bottomLinks={[
+        { label: "Syarat", href: "/terms" },
+        { label: "Privasi", href: "/privacy" }
+      ]}
     />
   );
 }`,
 
   animated: `import { Footer } from "ultima-ui";
+import { FaFacebookF, FaTwitter, FaGithub, FaLinkedinIn } from "react-icons/fa";
 
-// Animated variant: dark footer with particle effects
+// NOTE: Install react-icons first: npm install react-icons
+
 const animatedColumns = [
   {
     title: "Explore",
@@ -108,14 +153,141 @@ const animatedColumns = [
   }
 ];
 
+const mySocialLinks = [
+  { icon: <FaFacebookF />, href: "#", label: "Facebook" },
+  { icon: <FaTwitter />, href: "#", label: "Twitter" },
+  { icon: <FaGithub />, href: "#", label: "GitHub" },
+  { icon: <FaLinkedinIn />, href: "#", label: "LinkedIn" }
+];
+
 export default function Example() {
   return (
     <Footer 
       variant="animated" 
       columns={animatedColumns}
+      description="Tetap terhubung dengan update terbaru."
+      socialTitle="Ikuti Kami"
+      socialLinks={mySocialLinks}
+      newsletter={{
+        title: "Langganan",
+        placeholder: "Email...",
+        buttonText: "Gabung"
+      }}
     />
   );
 }`,
+};
+
+const PREVIEW_PROPS = {
+  primary: {
+    columns: [
+      {
+        title: "Product",
+        items: [
+          { label: "Features", href: "/features" },
+          { label: "Pricing", href: "/pricing" },
+          { label: "Integrations", href: "/integrations" }
+        ]
+      },
+      {
+        title: "Company",
+        items: [
+          { label: "About", href: "/about" },
+          { label: "Blog", href: "/blog" },
+          { label: "Careers", href: "/careers" }
+        ]
+      },
+      {
+        title: "Resources",
+        items: [
+          { label: "Documentation", href: "/docs" },
+          { label: "API Reference", href: "/api" },
+          { label: "Community", href: "/community" }
+        ]
+      }
+    ],
+    brandName: "MyCompany",
+    description: "Dapatkan tips dan update terbaru langsung ke inbox kamu.",
+    copyright: "© 2026 MyCompany. Semua hak dilindungi.",
+    newsletter: {
+      title: "Berlangganan",
+      placeholder: "Masukkan email...",
+      buttonText: "DAFTAR"
+    }
+  },
+  secondary: {
+    columns: [
+      {
+        title: "Legal",
+        items: [
+          { label: "Privacy Policy", href: "/privacy" },
+          { label: "Terms of Service", href: "/terms" }
+        ]
+      },
+      {
+        title: "Connect",
+        items: [
+          { label: "Twitter", href: "https://twitter.com" },
+          { label: "LinkedIn", href: "https://linkedin.com" }
+        ]
+      }
+    ],
+    brandName: "SecondaryBrand",
+    description: "Platform terbaik untuk kebutuhan bisnismu.",
+    copyright: "© 2026 SecondaryBrand",
+    newsletter: {
+      title: "Newsletter",
+      placeholder: "Email address",
+      buttonText: "Subscribe",
+      disclaimer: "By subscribing, you agree to our privacy policy."
+    },
+    bottomLinks: [
+      { label: "Terms", href: "/terms" },
+      { label: "Privacy", href: "/privacy" }
+    ]
+  },
+  outline: {
+    brandName: "OutlineBrand",
+    copyright: "© 2026 OutlineBrand",
+    navLinks: [
+      { label: "Dokumentasi", href: "/docs" },
+      { label: "Komponen", href: "/components" },
+      { label: "Harga", href: "/pricing" }
+    ],
+    newsletter: {
+      placeholder: "Email kamu",
+      buttonText: "Langganan"
+    },
+    bottomLinks: [
+      { label: "Syarat", href: "/terms" },
+      { label: "Privasi", href: "/privacy" }
+    ]
+  },
+  animated: {
+    columns: [
+      {
+        title: "Explore",
+        items: [
+          { label: "Galaxies", href: "#galaxies" },
+          { label: "Nebulae", href: "#nebulae" }
+        ]
+      },
+      {
+        title: "Mission",
+        items: [
+          { label: "About Us", href: "#about" },
+          { label: "Our Team", href: "#team" }
+        ]
+      }
+    ],
+    description: "Tetap terhubung dengan update terbaru.",
+    socialTitle: "Ikuti Kami",
+    newsletter: {
+      title: "Langganan",
+      placeholder: "Email...",
+      buttonText: "Gabung"
+    }
+  }
 };
 
 export default function FooterPage() {
@@ -185,7 +357,7 @@ export default function FooterPage() {
 
               <div style={{ background: theme.colors.surface, padding: theme.spacing.xl, borderLeft: `1px solid ${borderColor}`, borderRight: `1px solid ${borderColor}`, minHeight: '160px', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden', transition: 'all 0.3s ease' }}>
                 <div style={{ width: previewWidth, transition: 'width 0.3s ease, padding 0.3s ease', border: currentView !== 'desktop' ? `1px dashed ${theme.colors.border}` : 'none', padding: currentView !== 'desktop' ? theme.spacing.md : 0, display: 'flex', justifyContent: 'center', background: currentView !== 'desktop' ? (theme.mode === 'dark' ? '#000' : '#fff') : 'transparent', borderRadius: currentView !== 'desktop' ? theme.radius.md : 0 }}>
-                  <Footer variant={variant} />
+                  <Footer variant={variant} {...PREVIEW_PROPS[variant]} />
                 </div>
               </div>
 

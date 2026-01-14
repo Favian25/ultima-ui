@@ -1,7 +1,7 @@
-import ButtonVariant from "./components/ButtonVariant.jsx";
-import CardVariant from "./components/CardVariant.jsx";
-import HeaderVariant from "./components/HeaderVariant.jsx";
-import FooterVariant from "./components/FooterVariant.jsx";
-import SidebarVariant from "./components/SidebarVariant.jsx";
+import { Button } from "./components/ButtonVariant.jsx";
+import { Card } from "./components/CardVariant.jsx";
+import { Header } from "./components/HeaderVariant.jsx";
+import { Footer } from "./components/FooterVariant.jsx";
+import { Sidebar } from "./components/SidebarVariant.jsx";
 
-export { ButtonVariant, CardVariant, HeaderVariant, FooterVariant, SidebarVariant };
+export { Button, Card, Header, Footer, Sidebar };

@@ -63,7 +63,6 @@ const Primary = styled(AsideBase)`
   min-height: 600px;
   background: ${brand};
   color: #eaf2ff;
-  border-radius: 18px;
   padding: 18px;
   display: grid;
   grid-template-rows: auto 1fr auto;
@@ -92,7 +91,6 @@ const Outline = styled(AsideBase)`
   background: #fff;
   color: ${ink};
   border: 2px solid ${ink};
-  border-radius: 18px;
   padding: 18px;
   display: grid;
   grid-template-rows: auto 1fr auto;
@@ -113,7 +111,6 @@ const Rail = styled(AsideBase)`
   min-height: 600px;
   background: #14203d;
   color: #ffffff;
-  border-radius: 18px;
   padding: 16px 10px;
   display: grid;
   grid-template-rows: auto 1fr auto;
@@ -227,7 +224,6 @@ const Animated = styled(AsideBase)`
   min-height: 600px;
   background: #14203d;
   color: #eaf2ff;
-  border-radius: 18px;
   padding: 18px;
   display: grid;
   grid-template-rows: auto 1fr auto;
@@ -288,21 +284,24 @@ function renderItems(list, activeKey) {
   );
 }
 
-const Sidebar = React.forwardRef(({ 
-  variant = "primary", 
+const Sidebar = React.forwardRef(({
+  variant = "primary",
   active = "dash",
   menuGroups,
+  brandText,
   className,
   ...rest
 }, ref) => {
-  // Default structure if no custom groups provided
+  // Default brand text based on variant
+  const resolvedBrandText = brandText ?? (variant === "primary" ? "Primary" : variant === "outline" ? "Outline" : variant === "animated" ? "Animated" : "Rail");
+
+  // Default structure if no custom groups provided - simple text-only items
   const resolvedGroups = menuGroups || [
-    { title: "Main", items: defaultMain },
-    { title: "Library", items: [
-      { ic: <FaBookOpen />, label: "Docs", key: "docs" },
-      { ic: <FaPuzzlePiece />, label: "Components", key: "comp" },
-    ]},
-    { title: null, items: defaultUtils }
+    { title: "Menu", items: [
+      { label: "Home", key: "home" },
+      { label: "Products", key: "products" },
+      { label: "Settings", key: "settings" },
+    ]}
   ];
 
   const renderGroups = () => (
@@ -319,7 +318,7 @@ const Sidebar = React.forwardRef(({
   if (variant === "primary") {
     return (
       <Primary ref={ref} className={className} {...rest}>
-        <Brand>Primary</Brand>
+        <Brand>{resolvedBrandText}</Brand>
         <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
           <div style={{ flex: 1 }}>{renderGroups()}</div>
         </div>
@@ -330,7 +329,7 @@ const Sidebar = React.forwardRef(({
   if (variant === "outline") {
     return (
       <Outline ref={ref} className={className} {...rest}>
-        <Brand>Outline</Brand>
+        <Brand>{resolvedBrandText}</Brand>
         <div style={{ flex: 1 }}>{renderGroups()}</div>
       </Outline>
     );
@@ -354,7 +353,7 @@ const Sidebar = React.forwardRef(({
           <span />
         </ParticleLayer>
 
-        <Brand>Animated</Brand>
+        <Brand>{resolvedBrandText}</Brand>
 
         <div style={{ flex: 1, position: 'relative', zIndex: 2 }}>{renderGroups()}</div>
       </Animated>
@@ -363,7 +362,7 @@ const Sidebar = React.forwardRef(({
 
   return (
     <Rail ref={ref} className={className} {...rest}>
-      <Brand>Rail</Brand>
+      <Brand>{resolvedBrandText}</Brand>
       <div style={{ flex: 1 }}>{renderGroups()}</div>
     </Rail>
   );

@@ -334,9 +334,71 @@ const Footer = React.forwardRef((props, ref) => {
     variant = "primary", 
     maxWidth = "1200px",
     columns,
+    brandName = "Ultima UI",
+    description,
+    copyright,
+    newsletter = {},
+    socialTitle = "Social",
+    socialLinks,
+    navLinks,
+    bottomLinks,
     className,
     ...rest
   } = props;
+
+  // Default descriptions per variant
+  const defaultDescriptions = {
+    primary: "Subscribe to our newsletter for a weekly dose of news, updates, helpful tips, and exclusive offers.",
+    secondary: "Komponen siap pakai untuk Next.js + styled-components, berpadu BEM + Sass.",
+    animated: "Stay updated with the latest releases.",
+    outline: ""
+  };
+
+  // Default newsletter config
+  const defaultNewsletter = {
+    title: "Newsletter",
+    placeholder: variant === "secondary" ? "Email kamu" : variant === "outline" ? "Email" : "Your email",
+    buttonText: variant === "secondary" ? "Daftar" : variant === "outline" ? "Subscribe" : variant === "animated" ? "Join" : "SUBSCRIBE",
+    disclaimer: variant === "secondary" ? "Dengan mendaftar, kamu menyetujui kebijakan privasi kami." : ""
+  };
+
+  // Default nav links for outline variant
+  const defaultNavLinks = [
+    { label: "Docs", href: "#" },
+    { label: "Components", href: "#" },
+    { label: "Pricing", href: "#" },
+    { label: "Contact", href: "#" }
+  ];
+
+  // Default bottom links
+  const defaultBottomLinks = [
+    { label: "Terms", href: "#" },
+    { label: "Privacy", href: "#" },
+    { label: "Status", href: "#" }
+  ];
+
+  const resolvedDescription = description ?? defaultDescriptions[variant];
+  const resolvedCopyright = copyright ?? `© ${new Date().getFullYear()} ${brandName}. All rights reserved.`;
+  const resolvedNewsletter = { ...defaultNewsletter, ...newsletter };
+  const resolvedNavLinks = navLinks || defaultNavLinks;
+  const resolvedBottomLinks = bottomLinks || defaultBottomLinks;
+
+  // Default social links
+  const defaultSocialLinks = [
+    { icon: <FaFacebookF />, href: "#", label: "Facebook" },
+    { icon: <FaGithub />, href: "#", label: "GitHub" },
+    { icon: <FaLinkedinIn />, href: "#", label: "LinkedIn" },
+    { icon: <FaTwitter />, href: "#", label: "Twitter" }
+  ];
+  const resolvedSocialLinks = socialLinks || defaultSocialLinks;
+
+  const renderSocialLinks = () => (
+    <Social>
+      {resolvedSocialLinks.map((link, idx) => (
+        <a key={idx} href={link.href} aria-label={link.label}>{link.icon}</a>
+      ))}
+    </Social>
+  );
 
   // Default Content
   const defaultColumns = [
@@ -398,29 +460,28 @@ const Footer = React.forwardRef((props, ref) => {
         <Inner $maxw={maxWidth}>
           <div style={{ display: "grid", gap: 22, gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
             <div style={{gridColumn: 'span 2'}}>
-              <Brand>Ultima UI</Brand>
+              <Brand>{brandName}</Brand>
               <p style={{ margin: "8px 0 0", color: lightSub, lineHeight: 1.6 }}>
-                Komponen siap pakai untuk Next.js + styled-components, berpadu BEM + Sass.
+                {resolvedDescription}
               </p>
 
-              <Social style={{ marginTop: 12 }}>
-                <a href="#" aria-label="Facebook"><FaFacebookF /></a>
-                <a href="#" aria-label="GitHub"><FaGithub /></a>
-                <a href="#" aria-label="LinkedIn"><FaLinkedinIn /></a>
-                <a href="#" aria-label="Twitter"><FaTwitter /></a>
-              </Social>
+              <div style={{ marginTop: 12 }}>
+                {renderSocialLinks()}
+              </div>
             </div>
 
             <div>
-              <Title>Newsletter</Title>
+              <Title>{resolvedNewsletter.title}</Title>
               <NewsWrap>
                 <InputRow>
-                  <Input placeholder="Email kamu" />
-                  <Button type="button">Daftar</Button>
+                  <Input placeholder={resolvedNewsletter.placeholder} />
+                  <Button type="button">{resolvedNewsletter.buttonText}</Button>
                 </InputRow>
-                <small style={{ color: lightSub }}>
-                  Dengan mendaftar, kamu menyetujui kebijakan privasi kami.
-                </small>
+                {resolvedNewsletter.disclaimer && (
+                  <small style={{ color: lightSub }}>
+                    {resolvedNewsletter.disclaimer}
+                  </small>
+                )}
               </NewsWrap>
             </div>
 
@@ -429,11 +490,11 @@ const Footer = React.forwardRef((props, ref) => {
 
           <Divider />
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
-            <small style={{ color: lightSub }}>© {new Date().getFullYear()} Ultima UI</small>
+            <small style={{ color: lightSub }}>{resolvedCopyright}</small>
             <div style={{ display: "flex", gap: 14 }}>
-              <a href="#">Terms</a>
-              <a href="#">Privacy</a>
-              <a href="#">Status</a>
+              {resolvedBottomLinks.map(link => (
+                <a key={link.label} href={link.href}>{link.label}</a>
+              ))}
             </div>
           </div>
         </Inner>
@@ -471,24 +532,19 @@ const Footer = React.forwardRef((props, ref) => {
           {renderColumns()}
 
           <div>
-            <Title>Newsletter</Title>
+            <Title>{resolvedNewsletter.title}</Title>
             <NewsWrap>
-              <small>Stay updated with the latest releases.</small>
+              <small>{resolvedDescription}</small>
               <InputRow>
-                <Input placeholder="Email..." />
-                <Button>Join</Button>
+                <Input placeholder={resolvedNewsletter.placeholder} />
+                <Button>{resolvedNewsletter.buttonText}</Button>
               </InputRow>
             </NewsWrap>
           </div>
 
           <div>
-            <Title>Social</Title>
-            <Social>
-              <a href="#"><FaFacebookF /></a>
-              <a href="#"><FaTwitter /></a>
-              <a href="#"><FaLinkedinIn /></a>
-              <a href="#"><FaGithub /></a>
-            </Social>
+            <Title>{socialTitle}</Title>
+            {renderSocialLinks()}
           </div>
         </Grid>
       </Inner>
@@ -501,12 +557,11 @@ const Footer = React.forwardRef((props, ref) => {
     <OutlineWrap ref={ref} className={className} {...rest}>
       <Inner $maxw={maxWidth}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
-          <Brand>Ultima UI</Brand>
+          <Brand>{brandName}</Brand>
           <nav style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-            <a href="#">Docs</a>
-            <a href="#">Components</a>
-            <a href="#">Pricing</a>
-            <a href="#">Contact</a>
+            {resolvedNavLinks.map(link => (
+              <a key={link.label} href={link.href}>{link.label}</a>
+            ))}
           </nav>
           <form
             onSubmit={(e) => e.preventDefault()}
@@ -519,7 +574,7 @@ const Footer = React.forwardRef((props, ref) => {
           >
             <input
               aria-label="Email"
-              placeholder="Email"
+              placeholder={resolvedNewsletter.placeholder}
               style={{
                 padding: "10px 12px",
                 borderRadius: 10,
@@ -538,15 +593,16 @@ const Footer = React.forwardRef((props, ref) => {
                 cursor: "pointer",
               }}
             >
-              Subscribe
+              {resolvedNewsletter.buttonText}
             </button>
           </form>
         </div>
         <div style={{ marginTop: 14, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
-          <small>© {new Date().getFullYear()} Ultima UI</small>
+          <small>{resolvedCopyright}</small>
           <div style={{ display: "flex", gap: 12 }}>
-            <a href="#">Terms</a>
-            <a href="#">Privacy</a>
+            {resolvedBottomLinks.slice(0, 2).map(link => (
+              <a key={link.label} href={link.href}>{link.label}</a>
+            ))}
           </div>
         </div>
       </Inner>
@@ -562,14 +618,14 @@ const Footer = React.forwardRef((props, ref) => {
             {renderColumns()}
 
             <div>
-              <Title>Newsletter</Title>
+              <Title>{resolvedNewsletter.title}</Title>
               <NewsWrap>
                 <small>
-                  Subscribe to our newsletter for a weekly dose of news, updates, helpful tips, and exclusive offers.
+                  {resolvedDescription}
                 </small>
                 <InputRow>
-                  <Input placeholder="Your email" aria-label="Email address" />
-                  <Button type="button">SUBSCRIBE</Button>
+                  <Input placeholder={resolvedNewsletter.placeholder} aria-label="Email address" />
+                  <Button type="button">{resolvedNewsletter.buttonText}</Button>
                 </InputRow>
 
                 <Social aria-label="Social links">
@@ -584,8 +640,8 @@ const Footer = React.forwardRef((props, ref) => {
 
           <Divider />
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: 'wrap' }}>
-            <Brand>Ultima UI</Brand>
-            <small style={{ color: softText }}>© {new Date().getFullYear()} Ultima UI. All rights reserved.</small>
+            <Brand>{brandName}</Brand>
+            <small style={{ color: softText }}>{resolvedCopyright}</small>
           </div>
         </Inner>
       </PrimaryWrap>

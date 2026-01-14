@@ -9,7 +9,6 @@ import { Header } from "../../../../components/HeaderVariant";
 const SNIPPETS = {
   primary: `import { Header } from "ultima-ui";
 
-// Primary variant: header with logo, navigation, and search box
 const primaryLinks = [
   { label: "Home", href: "/" },
   { label: "Products", href: "/products" },
@@ -23,13 +22,13 @@ export default function Example() {
       variant="primary" 
       logoText="MyBrand"
       links={primaryLinks}
+      searchPlaceholder="Cari produk..."
     />
   );
 }`,
 
   secondary: `import { Header } from "ultima-ui";
 
-// Secondary variant: header with logo, navigation, and user profile avatar
 const secondaryLinks = [
   { label: "Dashboard", href: "/dashboard" },
   { label: "Analytics", href: "/analytics" },
@@ -42,13 +41,13 @@ export default function Example() {
       variant="secondary" 
       logoText="AdminPanel"
       links={secondaryLinks}
+      profileInitial="A"
     />
   );
 }`,
 
   outline: `import { Header } from "ultima-ui";
 
-// Outline variant: minimal header with logo and navigation only
 const outlineLinks = [
   { label: "Documentation", href: "/docs" },
   { label: "API Reference", href: "/api" },
@@ -67,7 +66,6 @@ export default function Example() {
 
   animated: `import { Header } from "ultima-ui";
 
-// Animated variant: cosmic hero header with starfield animation
 const animatedLinks = [
   { label: "Explore", href: "#explore" },
   { label: "Features", href: "#features" },
@@ -81,9 +79,52 @@ export default function Example() {
       variant="animated" 
       logoText="StarApp"
       links={animatedLinks}
+      heroTitle="Jelajahi Semesta"
+      heroSubtitle="Temukan kreativitas tanpa batas."
     />
   );
 }`,
+};
+
+const PREVIEW_PROPS = {
+  primary: {
+    logoText: "MyBrand",
+    links: [
+      { label: "Home", href: "/" },
+      { label: "Products", href: "/products" },
+      { label: "About Us", href: "/about" },
+      { label: "Contact", href: "/contact" }
+    ],
+    searchPlaceholder: "Cari produk..."
+  },
+  secondary: {
+    logoText: "AdminPanel",
+    links: [
+      { label: "Dashboard", href: "/dashboard" },
+      { label: "Analytics", href: "/analytics" },
+      { label: "Settings", href: "/settings" }
+    ],
+    profileInitial: "A"
+  },
+  outline: {
+    logoText: "DevDocs",
+    links: [
+      { label: "Documentation", href: "/docs" },
+      { label: "API Reference", href: "/api" },
+      { label: "Examples", href: "/examples" }
+    ]
+  },
+  animated: {
+    logoText: "StarApp",
+    links: [
+      { label: "Explore", href: "#explore" },
+      { label: "Features", href: "#features" },
+      { label: "Pricing", href: "#pricing" },
+      { label: "Sign Up", href: "#signup" }
+    ],
+    heroTitle: "Jelajahi Semesta",
+    heroSubtitle: "Temukan kreativitas tanpa batas."
+  }
 };
 
 export default function HeaderPage() {
@@ -262,7 +303,7 @@ export default function HeaderPage() {
                   background: currentView !== 'desktop' ? (theme.mode === 'dark' ? '#000' : '#fff') : 'transparent',
                   borderRadius: currentView !== 'desktop' ? theme.radius.md : 0,
                 }}>
-                  <Header variant={variant} />
+                  <Header variant={variant} {...PREVIEW_PROPS[variant]} />
                 </div>
               </div>
 
