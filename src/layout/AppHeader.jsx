@@ -2,6 +2,7 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import Link from "next/link";
+import Image from "next/image";
 import { FiSun, FiMoon } from "react-icons/fi";
 import { useThemeContext } from "../app/Provider";
 import { colors, fontColors, spacing, typography, borderRadius } from "../app/token/theme";
@@ -258,7 +259,13 @@ export default function AppHeader() {
             {isMenuOpen ? <IoClose /> : <IoMenu />}
           </HamburgerBtn>
           <Brand href="/">
-            <BrandIconContainer />
+            <Image 
+              src={mode === 'dark' ? '/Logo-Ultima-Light.png' : '/Logo-Ultima-Dark.png'}
+              alt="Ultima UI Logo"
+              width={32}
+              height={32}
+              style={{ borderRadius: 8 }}
+            />
             Ultima UI
           </Brand>
         </div>

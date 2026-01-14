@@ -13,6 +13,12 @@ Ultima UI is a lightweight and modern React UI library built with styled-compone
 
 ---
 
+## Keywords
+
+`react`, `ui-library`, `styled-components`, `nextjs`, `ultima-ui`, `components`
+
+---
+
 ## Installation
 
 ```bash
@@ -28,12 +34,12 @@ yarn add ultima-ui
 ## Basic Usage
 
 ```jsx
-import { ButtonVariant, HeaderVariant, CardVariant, SidebarVariant, FooterVariant } from "ultima-ui";
+import { Card } from "ultima-ui";
 
 export default function Page() {
   return (
     <>
-      <CardVariant 
+      <Card 
         variant="animated"
         title="Ultima UI Card"
         desc="Lorem ipsum dolor sit amet"
