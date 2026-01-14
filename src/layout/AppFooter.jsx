@@ -2,6 +2,7 @@
 import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
+import Image from "next/image";
 import { useThemeContext } from "../app/Provider";
 import { colors, spacing } from "../app/token/theme";
 
@@ -167,7 +168,13 @@ export default function AppFooter() {
           {/* Col 1: Brand */}
           <BrandCol>
              <h3>
-               <BrandIconContainer />
+               <Image 
+                 src={'/Logo-Ultima-Dark.png'}
+                 alt="Ultima UI Logo"
+                 width={28}
+                 height={28}
+                 style={{ borderRadius: 6 }}
+               />
                Ultima UI
              </h3>
              <p>
@@ -186,7 +193,7 @@ export default function AppFooter() {
           <LinkGroup>
             <h4>{t.version}</h4>
             <div style={{ fontSize: '0.95rem', color: colors.textSecondary, fontWeight: 500 }}>
-              v0.1.5
+              v0.1.7
             </div>
             <div style={{ fontSize: '0.95rem', color: colors.textSecondary, marginTop: 4 }}>
               Build with Next.js
